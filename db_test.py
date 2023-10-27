@@ -1,0 +1,64 @@
+from db.sql_conn import DataBase
+
+
+db = DataBase('./db/user2.db')
+
+
+def retrieveTest():
+    # desp, results = db.Query("select * from student_info")
+    id = ['stu_id', 'stu_sex']
+    value = ['1', '女']
+    desp, results = db.Query2('student_info', id, value)
+    # db.DeleteById(id, value, 'student_info')
+    assert desp
+    print(desp)
+    print(results)
+    return len(desp), desp, results
+
+def insertTest():
+    _, results = db.selectAll('users')
+    print(results)
+    # 钦定第一个为 id，待修改
+    data = dict(
+        username = '233',
+        pwd = 'qwq12345'
+    )
+    db.Insert('users', data)
+    _, results = db.selectAll('users')
+    print(results)
+
+def updateTest():
+    id = ['username', 'pwd']
+    value = ['233', 'qwq12345']
+    _, results = db.Query2('users', id, value)
+    print(results)
+    data = dict(
+        username = '233',
+        pwd = '1q2w3e4r'
+    )
+    db.Update('users', data)
+    _, results = db.Query("select * from users where username = %s" % '233')
+    print(results)
+
+def deleteByOneIdTest():
+    _, results = db.Query("select * from users where username = %s" % '233')
+    print(results)
+    db.DeleteById('users', 'username', '233')
+    _, results = db.Query("select * from users where username = %s" % '233')
+    print(results)
+
+def deleteByMultiIdTest():
+    _, results = db.Query("select * from users where username = %s" % '233')
+    print(results)
+    id = ['username', 'pwd']
+    values = ['233', '1q2w3e4r']
+    db.DeleteById('users', id, values)
+    _, results = db.Query("select * from users where username = %s" % '233')
+    print(results)
+
+
+retrieveTest()
+insertTest()
+updateTest()
+deleteByOneIdTest()
+# deleteByMultiIdTest()
