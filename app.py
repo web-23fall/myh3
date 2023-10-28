@@ -7,6 +7,7 @@ app.secret_key = "qwq"
 
 db = DataBase('./db/user.db')
 
+
 def checkLogin():
     return True if 'username' in session else False
 
@@ -15,7 +16,11 @@ def checkLogin():
 def index():
     if not checkLogin():
         return redirect(url_for('login'))
-    return 'Hello World'  
+    desp, results = db.selectAll('student_info')
+    print(desp)
+    print(results)
+    return render_template('show.html', results=results, desp=desp)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,10 +37,12 @@ def login():
         else:
             return render_template('login.html')
 
+
 @app.route('/reset', methods=['GET'])
 def reset():
     session.clear()
     return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -18,7 +18,6 @@ def retrieveTest():
 def insertTest():
     _, results = db.selectAll('users')
     print(results)
-    # 钦定第一个为 id，待修改
     data = dict(
         username = '233',
         pwd = 'qwq12345'
@@ -32,9 +31,11 @@ def updateTest():
     value = ['233', 'qwq12345']
     _, results = db.Query2('users', id, value)
     print(results)
+    # id 属性对应着一个 list，里面放着一（或多）个 id 的名称
     data = dict(
+        id = ['username'],
         username = '233',
-        pwd = '1q2w3e4r'
+        pwd = '1q2w3e4r',
     )
     db.Update('users', data)
     _, results = db.Query("select * from users where username = %s" % '233')
@@ -50,6 +51,7 @@ def deleteByOneIdTest():
 def deleteByMultiIdTest():
     _, results = db.Query("select * from users where username = %s" % '233')
     print(results)
+    # 此处 id 中的值和 value 中的值要严格对应
     id = ['username', 'pwd']
     values = ['233', '1q2w3e4r']
     db.DeleteById('users', id, values)

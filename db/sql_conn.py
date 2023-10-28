@@ -66,10 +66,15 @@ class DataBase:
         conn = self.Open()
         cur = conn.cursor()
         values = []
-        idName = list(data)[0]
-        for v in list(data)[1:]:
-            values.append("%s='%s'" % (v, data[v]))
-        sql = "update %s set %s where %s = '%s'" % (table, ",".join(values), idName, data[idName])
+        ids = []
+        idNames = data['id']
+        print(idNames)
+        for v in list(data):
+            if v in idNames:
+                ids.append("%s='%s'" % (v, data[v]))
+            elif v != 'id':
+                values.append("%s='%s'" % (v, data[v]))
+        sql = "update %s set %s where %s" % (table, ",".join(values), " and ".join(ids))
         print(sql)
         cur.execute(sql)
         conn.commit()
