@@ -8,6 +8,46 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>    
 </head>
 <body>
-    
+    <div id="container">
+        <h1>请输入要插入记录的相关信息</h1>
+        <form id="insertForm" name="insertForm" method="post" action="/add">
+            <label for="stu_id">学号：</label>
+            <input type="text" name="stu_id" id="stu_id" />
+            <p>
+                <label for="stu_name">姓名：</label>
+                <input type="text" name="stu_name" id="stu_name" />
+            </p>
+            <p>
+                <label for="stu_sex">性别：</label>
+                <input type="radio" name="stu_sex" id="male" value="男" />
+                男
+                <input type="radio" name="stu_sex" id="female" value="女" />
+                女
+                <br />
+            </p>
+            <p>
+                <label for="stu_age">年龄：</label>
+                <input type="text" name="stu_age" id="stu_age" />
+            </p>
+            <p>
+                <label for="stu_origin">籍贯：</label>
+                <input type="text" name="stu_origin" id="stu_origin" />
+            </p>
+            <p>
+                <label for="stu_profession">专业：</label>
+                <select id="stu_profession" name="stu_profession">
+                    {% for pro in pros %}
+                    <option value="{{ pro[1] }}">{{ pro[1] }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>
+                <input type="submit" class="btn btn-primary" name="submit" value="提交" />
+                <input type="reset" class="btn btn-primary" name="reset" value="重置" />
+                <br />
+            </p>
+        </form>
+    </div>
 </body>
 </html>
+

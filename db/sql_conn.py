@@ -67,12 +67,12 @@ class DataBase:
         cur = conn.cursor()
         values = []
         ids = []
-        idNames = data['id']
+        idNames = data['ID']
         print(idNames)
         for v in list(data):
             if v in idNames:
                 ids.append("%s='%s'" % (v, data[v]))
-            elif v != 'id':
+            elif v != 'ID':
                 values.append("%s='%s'" % (v, data[v]))
         sql = "update %s set %s where %s" % (table, ",".join(values), " and ".join(ids))
         print(sql)

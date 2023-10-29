@@ -9,10 +9,20 @@
     <style type="text/css">
         table, tr, td {
             border: 1px solid black;
+            text-align: center;
         }
     </style>    
 </head>
 <body>
+    <form>
+        <label for="name">姓名：</label>
+        <input type="text" name="name" id="name" />
+        <label for="id">学号：</label>
+        <input type="text" name="id" id="id" />
+        <input type="submit" value="查询" class="btn btn-primary btn-sm" />
+    </form>
+    <a href="/add">新增数据</a>
+    <br>
     <table>
         <tr>
             {% for d in desp %}
@@ -26,8 +36,8 @@
             {% for v in item %}
             <td>{{ v }}</td>
             {% endfor %}
-            <td>修改</td>
-            <td>删除</td>
+            <td><a href="/update?id={{ item[0] }}">修改</a></td>
+            <td><a href="/delete/{{ item[0] }}">删除</a></td>
         </tr>
         {% endfor %}
     </table>
