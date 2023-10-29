@@ -57,7 +57,7 @@ def add():
     if request.method == 'GET':
         _, results = db.selectAll('student_profession')
         return render_template('add.html', pros=results)
-    
+
     data = dict(
         stu_id=request.form['stu_id'],
         stu_name=request.form['stu_name'],
