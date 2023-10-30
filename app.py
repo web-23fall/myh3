@@ -18,11 +18,11 @@ def login():
         return render_template('login.html')
     else:
         id = ['username', 'pwd']
-        value = [request.form['username'], request.form['pwd']]
+        value = [request.form.get('username', type=str), request.form.get('pwd', type=str)]
         _, results = db.Query2('users', id, value)
         assert _
         if results:
-            session['username'] = request.form['username']
+            session['username'] = request.form.get('username', type=str)
             return redirect(url_for('index'))
         else:
             return render_template('login.html')
@@ -36,12 +36,14 @@ def index():
     values = []
     if "id" in request.args:
         ids.append('stu_id')
-        if request.args["id"] != "":
-            values.append(request.args["id"])
+        stu_id = request.args.get("id", type=int)
+        if stu_id != "":
+            values.append(stu_id)
     if "name" in request.args:
         ids.append('stu_name')
-        if request.args["name"] != "":
-            values.append(request.args["name"])
+        stu_name = request.args.get("name", type=str)
+        if stu_name != "":
+            values.append(stu_name)
 
     if len(ids) != 0:
         desp, results = db.Query2('student_info', ids, values)
@@ -59,12 +61,12 @@ def add():
         return render_template('add.html', pros=results)
 
     data = dict(
-        stu_id=request.form['stu_id'],
-        stu_name=request.form['stu_name'],
-        stu_sex=request.form['stu_sex'],
-        stu_age=request.form['stu_age'],
-        stu_origin=request.form['stu_origin'],
-        stu_profession=request.form['stu_profession']
+        stu_id=request.form.get('stu_id', type=int),
+        stu_name=request.form.get('stu_name', type=str),
+        stu_sex=request.form.get('stu_sex', type=str),
+        stu_age=request.form.get('stu_age', type=int),
+        stu_origin=request.form.get('stu_origin', type=str),
+        stu_profession=request.form.get('stu_profession', type=str)
     )
     db.Insert('student_info', data)
     return redirect(url_for('index'))
@@ -77,19 +79,20 @@ def update():
 
     if request.method == 'GET':
         ids = ['stu_id']
-        values = [request.args['id']]
+        stu_id = request.args.get('id', type=str)
+        values = [stu_id]
         _, stu = db.Query2('student_info', ids, values)
         _, pros = db.selectAll('student_profession')
         return render_template('update.html', stu=stu[0], pros=pros)
 
     data = dict(
         ID=['stu_id'],
-        stu_id=request.form['stu_id'],
-        stu_name=request.form['stu_name'],
-        stu_sex=request.form['stu_sex'],
-        stu_age=request.form['stu_age'],
-        stu_origin=request.form['stu_origin'],
-        stu_profession=request.form['stu_profession']
+        stu_id=request.form.get('stu_id', type=int),
+        stu_name=request.form.get('stu_name', type=str),
+        stu_sex=request.form.get('stu_sex', type=str),
+        stu_age=request.form.get('stu_age', type=int),
+        stu_origin=request.form.get('stu_origin', type=str),
+        stu_profession=request.form.get('stu_profession', type=str)
     )
     db.Update('student_info', data)
     return redirect(url_for('index'))
