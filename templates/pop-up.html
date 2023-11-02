@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <title>弹窗动画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .boxF {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #bff3f0;
+            padding: 20px;
+        }
+
+        .active {
+            filter: blur(20px);
+            /* 模糊界面 */
+            pointer-events: none;
+            /* 阻止用户点击或与页面上的元素交互 */
+            user-select: none;
+            /* 阻止用户选择文本 */
+        }
+
+        .box {
+            position: relative;
+            max-width: 700px;
+        }
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        .box img {
+            max-width: 100%;
+            display: block;
+        }
+
+
+        a {
+            margin-top: 20px;
+            position: relative;
+            padding: 5px 20px;
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #111111;
+        }
+
+        .popup {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            background-color: #ffffff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .popupActive {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transition: 0.5s;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="boxF" id="blue">
+
+        <button type="button" class="btn btn-primary" onclick="toggle()">点击</button>
+    </div>
+    <!-- <button>弹窗</button> -->
+    <div class="popup">
+        <h2>
+            MIS系统提示
+        </h2>
+        <p>
+            已成功删除/添加/修改！
+        </p>
+        <button type="button" class="btn btn-primary" onclick="toggle()">确定</button>
+    </div>
+
+    <script>
+        function toggle() {
+            let blue = document.querySelector("#blue");
+            blue.classList.toggle("active");
+            let popup = document.querySelector(".popup");
+            popup.classList.toggle("popupActive");
+        }
+    </script>
+
+</body>
+
+</html>
