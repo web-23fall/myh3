@@ -22,11 +22,15 @@ def login():
         value = [request.form.get('username', type=str),request.form.get('pwd',type=str)];
         _, userinfo = db.Query3_lq('users',id[0],value[0])
         print(userinfo)
-        if userinfo and bcrypt.checkpw(value[1].encode('utf-8'), userinfo[0][1].encode('utf-8')):
-            session['username'] = request.form.get('username', type=str)
-            return redirect(url_for('index'))
+        if userinfo:
+            if bcrypt.checkpw(value[1].encode('utf-8'), userinfo[0][1].encode('utf-8')):
+                session['username'] = request.form.get('username', type=str)
+                return redirect(url_for('index'))
+            else:
+                flash('密码不正确', 'error')
         else:
-            return render_template('login.html')
+            flash('用户名不存在', 'error')
+        return render_template('login.html')
 
 @app.route('/register',methods=['POST','GET'])
 def register():
@@ -35,6 +39,11 @@ def register():
     else:
         username = request.form.get('username',type=str)
         pwd = request.form.get('pwd',type=str)
+
+        if db.username_exists('users',username):
+            flash('用户名已被注册，请选择不同的用户名。', 'error')
+            return redirect(url_for('register'))
+        print(db.username_exists('users',username))
         salt  = bcrypt.gensalt();
         spwd = bcrypt.hashpw(pwd.encode('utf-8'),salt)
         print(username," ",spwd," ",salt)
@@ -45,8 +54,6 @@ def register():
         )
         db.Insert('users',data)
         return redirect(url_for('login'))
-
-
 
 
 

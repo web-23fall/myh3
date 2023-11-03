@@ -67,6 +67,7 @@ class DataBase:
         cur = conn.cursor()
         values = []
         sql = "select * from %s where %s = '%s'" % (table,id,value)
+
         print(sql)
         cur.execute(sql)
 
@@ -78,6 +79,18 @@ class DataBase:
         cur.close()
         Close(conn)
         return description, result
+
+    def username_exists(self,table,username):
+        conn = self.Open()
+        cur = conn.cursor()
+        sql = "select * from %s where username = %s" % (table,username)
+        print(sql)
+        cur.execute(sql)
+        result = cur.fetchall()
+        print(result)
+        conn.commit()
+        Close(conn)
+        return result
 
     def Update(self, table, data):
         conn = self.Open()
