@@ -5,7 +5,7 @@ import  bcrypt
 app = Flask(__name__)
 app.secret_key = "qwq"
 
-db = DataBase('./db/user.db')
+db = DataBase('./db/user2.db')
 
 
 def checkLogin():
@@ -34,7 +34,7 @@ def login():
         return render_template('login.html')
 
 
-@app.route('/register',methods=['POST','GET'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'GET':
         return render_template('register.html')
@@ -142,6 +142,17 @@ def reset():
     session.clear()
     return redirect(url_for('login'))
 
+
+@app.route('/delete_all', methods=['GET', 'POST'])
+def deleteAll():
+    if not checkLogin():
+        return redirect(url_for('login'))
+
+    idlist = request.form.getlist('ids')
+    for stuId in idlist:
+        db.DeleteById('student_info', 'stu_id', stuId)
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
