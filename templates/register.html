@@ -13,34 +13,35 @@
             <div class="col"></div>
              <div class="col">
                 <br>
-                 <a href="/register">点此注册账号</a>
-                <form class="form-horizontal" action="login" method="post">
+                 <a href="/login">已有账号？点此登录</a>
+                <form class="form-horizontal" action="register" method="post">
                     <div class="form-group">
                         <label class="col control-label" for="username">用户名：</label>
                         <div class="col">
                             <input class="form-control" name="username" type="text" id="username">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col control-label" for="pwd">密码：</label>
-                        <div class="col">
-                            <input class="form-control" name="pwd" type="password" id="pwd">
                             {% with messages = get_flashed_messages() %}
                             {% if messages %}
                             <div class="alert alert-danger">
                              <ul>
-                                    <li>{{ messages }}</li>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
                              </ul>
                              </div>
                             {% endif %}
                             {% endwith %}
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col control-label" for="pwd">密码：</label>
+                        <div class="col">
+                            <input class="form-control" name="pwd" type="password" id="pwd">
+                        </div>
+                    </div>
                     <div class="col"></div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">登录</button>
+                            <button type="submit" class="btn btn-default">注册</button>
                             <button type="reset" class="btn btn-default">重置</button>
 
 

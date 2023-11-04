@@ -1,6 +1,6 @@
-from flask import Flask, request, session, redirect, url_for, render_template
+from flask import Flask, request, session, redirect, url_for, render_template,flash
 from db.sql_conn import DataBase
-
+import  bcrypt
 
 app = Flask(__name__)
 app.secret_key = "qwq"
@@ -12,20 +12,51 @@ def checkLogin():
     return True if 'username' in session else False
 
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
     else:
-        id = ['username', 'pwd']
-        value = [request.form.get('username', type=str), request.form.get('pwd', type=str)]
-        _, results = db.Query2('users', id, value)
-        assert _
-        if results:
-            session['username'] = request.form.get('username', type=str)
-            return redirect(url_for('index'))
+        id = ['username']
+        value = [request.form.get('username', type=str)]
+        _, userinfo = db.Query2('users', id, value)
+        print(userinfo)
+        pwd = request.form.get('pwd', type=str)
+        if userinfo:
+            if bcrypt.checkpw(pwd.encode('utf-8'), userinfo[0][1].encode('utf-8')):
+                session['username'] = request.form.get('username', type=str)
+                return redirect(url_for('index'))
+            else:
+                flash('密码不正确', 'error')
         else:
-            return render_template('login.html')
+            flash('用户名不存在', 'error')
+        return render_template('login.html')
+
+
+@app.route('/register',methods=['POST','GET'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        username = request.form.get('username',type=str)
+        pwd = request.form.get('pwd',type=str)
+
+        if db.username_exists(username):
+            flash('用户名已被注册，请选择不同的用户名。', 'error')
+            return redirect(url_for('register'))
+        # print(db.username_exists(username))
+        salt  = bcrypt.gensalt()
+        spwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
+        # print(username," ",spwd," ",salt)
+        data = dict(
+            username=username,
+            pwd=spwd.decode('utf-8'),
+            salt=salt.decode('utf-8')
+        )
+        db.Insert('users',data)
+        return redirect(url_for('login'))
+
 
 
 @app.route('/', methods=['GET'])

@@ -62,6 +62,17 @@ class DataBase:
         Close(conn)
         return description, result
 
+    def username_exists(self, username):
+        conn = self.Open()
+        cur = conn.cursor()
+        sql = "select * from users where username = %s" % username
+        print(sql)
+        cur.execute(sql)
+        result = cur.fetchall()
+        print(result)
+        Close(conn)
+        return result
+
     def Update(self, table, data):
         conn = self.Open()
         cur = conn.cursor()
