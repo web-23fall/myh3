@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>    
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>    
 </head>
 <body>
     <div class="container">
@@ -29,21 +30,43 @@
                             {% with messages = get_flashed_messages() %}
                             {% if messages %}
                             <div class="alert alert-danger">
-                             <ul>
-                                {% for message in messages %}
-                                    <li>{{ message }}</li>
-                                {% endfor %}
-                             </ul>
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
                              </div>
                             {% endif %}
                             {% endwith %}
                         </div>
                     </div>
-                    <div class="col"></div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">登录</button>
+                            <button type="button" class="btn btn-default" onclick="send()">登录</button>
                             <button type="reset" class="btn btn-default">重置</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="code-modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">验证码弹窗</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <span>请计算验证码中算式的值。</span>
+                                    <div id="code-content"></div>
+                                    <button type="button" class="btn btn-link" onclick="again()">看不清？换一张</button>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="code" placeholder="请输入答案">
+                                        <div class="input-group-append">
+                                            <button id="send-btn" type="submit" class="btn btn-outline-primary">
+                                                确认
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -51,4 +74,40 @@
         </div>
     </div>
 </body>
+<script>
+    let lastImagePath = "";
+    function requestForCode() {
+        let code = "";
+        $.ajax({
+            url: '/code',
+            type: 'POST',
+            data: {
+                request_code: true,
+                last_image_path: lastImagePath
+            },
+            dataType: 'json',
+            async: false,
+            success: function(response) {
+                code = response.code.toString();
+                lastImagePath = response.path.toString();
+                return;
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+        return code;
+    }
 
+    function send() {
+        code = requestForCode();
+        $("#code-modal").modal("show");
+        document.getElementById("code-content").innerHTML = "<img src='.." + lastImagePath.substring(1) + "'/>";
+    }
+
+    function again() {
+        code = requestForCode();
+        document.getElementById("code-content").innerHTML = "<img src='.." + lastImagePath.substring(1) + "'/>";
+    }
+</script>
+</html>

@@ -1,20 +1,43 @@
-from flask import Flask, request, session, redirect, url_for, render_template,flash
+from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify
 from db.sql_conn import DataBase
-import  bcrypt
+from utils.util import generate_equation, generate_image
+
+import bcrypt, hashlib, os, shutil
 
 app = Flask(__name__)
 app.secret_key = "qwq"
 
 db = DataBase('./db/user2.db')
+code_sha1 = ""
 
 
 def checkLogin():
     return True if 'username' in session else False
 
 
+@app.route('/code', methods=['POST'])
+def generate_code():
+    data = request.form.get('request_code')
+    last_image_path = request.form.get('last_image_path')
+    if (data == 'true'):
+        eqt, _ = generate_equation()
+        global code_sha1
+        code_sha1 = _
+        if last_image_path != '':
+            os.remove(last_image_path)
+        img_path = generate_image(eqt)
+        code_json = {'code': eqt, 'path': img_path, 'status': 'success'}
+        return jsonify(code_json)
+    else:
+        error_json = {'code': 'error', 'path': '', 'status': 'failed'}
+        return jsonify(error_json)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if os.path.exists("./static/images"):
+        shutil.rmtree('./static/images')
+    os.mkdir('./static/images')
     if request.method == 'GET':
         return render_template('login.html')
     else:
@@ -25,8 +48,14 @@ def login():
         pwd = request.form.get('pwd', type=str)
         if userinfo:
             if bcrypt.checkpw(pwd.encode('utf-8'), userinfo[0][1].encode('utf-8')):
-                session['username'] = request.form.get('username', type=str)
-                return redirect(url_for('index'))
+                code_get = request.form.get('code')
+                vfc_sha1 = hashlib.sha1()
+                vfc_sha1.update(code_get.encode('utf-8'))
+                if code_sha1 == vfc_sha1.hexdigest():
+                    session['username'] = request.form.get('username', type=str)
+                    return redirect(url_for('index'))
+                else:
+                    flash('验证码错误', 'error')
             else:
                 flash('密码不正确', 'error')
         else:
@@ -46,7 +75,7 @@ def register():
             flash('用户名已被注册，请选择不同的用户名。', 'error')
             return redirect(url_for('register'))
         # print(db.username_exists(username))
-        salt  = bcrypt.gensalt()
+        salt = bcrypt.gensalt()
         spwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
         # print(username," ",spwd," ",salt)
         data = dict(
@@ -153,6 +182,7 @@ def deleteAll():
         db.DeleteById('student_info', 'stu_id', stuId)
 
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
