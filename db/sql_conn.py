@@ -62,33 +62,14 @@ class DataBase:
         Close(conn)
         return description, result
 
-    def Query3_lq(self, table, id, value):
+    def username_exists(self, username):
         conn = self.Open()
         cur = conn.cursor()
-        values = []
-        sql = "select * from %s where %s = '%s'" % (table,id,value)
-
-        print(sql)
-        cur.execute(sql)
-
-        description = []
-        for d in cur.description:
-            description.append(d[0])
-        result = cur.fetchall()
-
-        cur.close()
-        Close(conn)
-        return description, result
-
-    def username_exists(self,table,username):
-        conn = self.Open()
-        cur = conn.cursor()
-        sql = "select * from %s where username = %s" % (table,username)
+        sql = "select * from users where username = %s" % username
         print(sql)
         cur.execute(sql)
         result = cur.fetchall()
         print(result)
-        conn.commit()
         Close(conn)
         return result
 
