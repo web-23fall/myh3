@@ -1,6 +1,6 @@
 from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify
 from db.sql_conn import DataBase
-from utils.util import generate_equation, generate_image
+from utils.util import generate_equation, generate_image, paging
 
 import bcrypt, hashlib, os, shutil
 
@@ -107,9 +107,11 @@ def index():
             values.append(stu_name)
 
     if len(ids) != 0:
-        desp, results, pagination = db.Query3('student_info', ids, values, page, per_page=20)
+        desp, result = db.Query2('student_info', ids, values)
     else:
-        desp, results, pagination= db.selectAll('student_info', page, per_page=20)
+        desp, result = db.selectAll('student_info')
+
+    results, pagination = paging(result, page, per_page=20)
 
     return render_template('show.html', results=results, desp=desp, pagination=pagination, page=page)
 

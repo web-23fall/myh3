@@ -42,3 +42,16 @@ def generate_image(eqt):
     img_path = './static/images/%s.jpg' % img_name
     image.save(img_path)
     return img_path
+
+
+def paging(result, page, per_page):
+    # 计算总页数
+    pagination = len(result) // per_page
+    if len(result) % per_page > 0:
+        pagination += 1
+
+    # 添加分页
+    start = (page - 1) * per_page
+    end = start + per_page
+    results = result[start:end]
+    return results, pagination
