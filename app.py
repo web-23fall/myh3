@@ -7,7 +7,7 @@ import bcrypt, hashlib, os, shutil
 app = Flask(__name__)
 app.secret_key = "qwq"
 
-db = DataBase('./db/user2.db')
+db = DataBase('./db/user.db')
 code_sha1 = ""
 
 
@@ -92,6 +92,7 @@ def register():
 def index():
     if not checkLogin():
         return redirect(url_for('login'))
+    page = request.args.get('page', 1, type=int)
     ids = []
     values = []
     if "id" in request.args:
@@ -106,10 +107,11 @@ def index():
             values.append(stu_name)
 
     if len(ids) != 0:
-        desp, results = db.Query2('student_info', ids, values)
+        desp, results, pagination = db.Query3('student_info', ids, values, page, per_page=20)
     else:
-        desp, results = db.selectAll('student_info')
-    return render_template('show.html', results=results, desp=desp)
+        desp, results, pagination= db.selectAll('student_info', page, per_page=20)
+
+    return render_template('show.html', results=results, desp=desp, pagination=pagination, page=page)
 
 
 @app.route('/add', methods=['GET', 'POST'])

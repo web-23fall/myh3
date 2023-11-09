@@ -27,7 +27,7 @@ class DataBase:
         Close(conn)
         return description, result
 
-    def selectAll(self, table):
+    def selectAll(self, table, page, per_page):
         conn = self.Open()
         cur = conn.cursor()
         sql = "select * from %s" % table
@@ -39,9 +39,19 @@ class DataBase:
             description.append(d[0])
         result = cur.fetchall()
 
+        # 计算总页数
+        pagination = len(result) // per_page
+        if len(result) % per_page > 0:
+            pagination += 1
+
+        # 添加分页
+        start = (page - 1) * per_page
+        end = start + per_page
+        result = result[start:end]
+
         cur.close()
         Close(conn)
-        return description, result
+        return description, result, pagination
 
     def Query2(self, table, id, value):
         conn = self.Open()
@@ -61,6 +71,35 @@ class DataBase:
         cur.close()
         Close(conn)
         return description, result
+
+    def Query3(self, table, id, value, page, per_page):
+        conn = self.Open()
+        cur = conn.cursor()
+        values = []
+        for i in range(len(id)):
+            values.append("%s='%s'" % (id[i], value[i]))
+        sql = "select * from %s where %s" % (table, ' and '.join(values))
+        print(sql)
+        cur.execute(sql)
+
+        description = []
+        for d in cur.description:
+            description.append(d[0])
+        result = cur.fetchall()
+
+        # 计算总页数
+        pagination = len(result) // per_page
+        if len(result) % per_page > 0:
+            pagination += 1
+
+        # 添加分页
+        start = (page - 1) * per_page
+        end = start + per_page
+        result = result[start:end]
+
+        cur.close()
+        Close(conn)
+        return description, result, pagination
 
     def username_exists(self, username):
         conn = self.Open()
