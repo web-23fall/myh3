@@ -48,6 +48,29 @@
             {% endfor %}
         </table>
     </form>
+<div>
+    <button onclick="window.location.href='{{ url_for('index', page=1) }}'">首页</button>
+
+    {% if page > 1 %}
+        <button onclick="window.location.href='{{ url_for('index', page=page-1) }}'">上一页</button>
+    {% endif %}
+
+    {% for i in range(page-2, page+3) %}
+        {% if i > 0 and i <= pagination %}
+            {% if i != page %}
+                <button onclick="window.location.href='{{ url_for('index', page=i) }}'">{{ i }}</button>
+            {% else %}
+                <button disabled>{{ i }}</button>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if page < pagination %}
+        <button onclick="window.location.href='{{ url_for('index', page=page+1) }}'">下一页</button>
+    {% endif %}
+
+    <button onclick="window.location.href='{{ url_for('index', page=pagination) }}'">尾页</button>
+</div>
     <a href="/reset">退出登录</a>
 </body>
 </html>
