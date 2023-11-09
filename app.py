@@ -107,7 +107,7 @@ def index():
             values.append(stu_name)
 
     if len(ids) != 0:
-        desp, results, pagination = db.Query2('student_info', ids, values, page, per_page=20)
+        desp, results, pagination = db.Query3('student_info', ids, values, page, per_page=20)
     else:
         desp, results, pagination= db.selectAll('student_info', page, per_page=20)
 

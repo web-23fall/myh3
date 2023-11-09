@@ -53,7 +53,26 @@ class DataBase:
         Close(conn)
         return description, result, pagination
 
-    def Query2(self, table, id, value, page, per_page):
+    def Query2(self, table, id, value):
+        conn = self.Open()
+        cur = conn.cursor()
+        values = []
+        for i in range(len(id)):
+            values.append("%s='%s'" % (id[i], value[i]))
+        sql = "select * from %s where %s" % (table, ' and '.join(values))
+        print(sql)
+        cur.execute(sql)
+
+        description = []
+        for d in cur.description:
+            description.append(d[0])
+        result = cur.fetchall()
+
+        cur.close()
+        Close(conn)
+        return description, result
+
+    def Query3(self, table, id, value, page, per_page):
         conn = self.Open()
         cur = conn.cursor()
         values = []
