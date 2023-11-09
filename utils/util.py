@@ -43,6 +43,7 @@ def generate_image(eqt):
     image.save(img_path)
     return img_path
 
+
 def paging(result, page, per_page):
     # 计算总页数
     pagination = len(result) // per_page
