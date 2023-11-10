@@ -42,17 +42,18 @@ def login():
         return render_template('login.html')
     else:
         id = ['username']
-        value = [request.form.get('username', type=str)]
+        username = request.form.get('username', type=str).strip()
+        value = [username]
         _, userinfo = db.Query2('users', id, value)
         print(userinfo)
-        pwd = request.form.get('pwd', type=str)
+        pwd = request.form.get('pwd', type=str).strip()
         if userinfo:
             if bcrypt.checkpw(pwd.encode('utf-8'), userinfo[0][1].encode('utf-8')):
-                code_get = request.form.get('code')
+                code_get = request.form.get('code').strip()
                 vfc_sha1 = hashlib.sha1()
                 vfc_sha1.update(code_get.encode('utf-8'))
                 if code_sha1 == vfc_sha1.hexdigest():
-                    session['username'] = request.form.get('username', type=str)
+                    session['username'] = username
                     return redirect(url_for('index'))
                 else:
                     flash('验证码错误', 'error')
@@ -97,13 +98,13 @@ def index():
     if "id" in request.args:
         ids.append('stu_id')
         stu_id = request.args.get("id", type=int)
-        if stu_id != "":
+        if stu_id != "" or stu_id is not None:
             values.append(stu_id)
     if "name" in request.args:
         ids.append('stu_name')
         stu_name = request.args.get("name", type=str)
-        if stu_name != "":
-            values.append(stu_name)
+        if stu_name != "" or stu_name is not None:
+            values.append(stu_name.strip())
 
     if len(ids) != 0:
         desp, results = db.Query2('student_info', ids, values)
