@@ -1,13 +1,13 @@
 from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify
 from db.sql_conn import DataBase
-from utils.util import generate_equation, generate_image
+from utils.util import generate_equation, generate_image, paging
 
 import bcrypt, hashlib, os, shutil
 
 app = Flask(__name__)
 app.secret_key = "qwq"
 
-db = DataBase('./db/user2.db')
+db = DataBase('./db/user.db')
 code_sha1 = ""
 
 
@@ -93,6 +93,7 @@ def register():
 def index():
     if not checkLogin():
         return redirect(url_for('login'))
+    page = request.args.get('page', 1, type=int)
     ids = []
     values = []
     if "id" in request.args:
@@ -107,10 +108,13 @@ def index():
             values.append(stu_name.strip())
 
     if len(ids) != 0:
-        desp, results = db.Query2('student_info', ids, values)
+        desp, result = db.Query2('student_info', ids, values)
     else:
-        desp, results = db.selectAll('student_info')
-    return render_template('show.html', results=results, desp=desp)
+        desp, result = db.selectAll('student_info')
+
+    results, pagination = paging(result, page, per_page=20)
+
+    return render_template('show.html', results=results, desp=desp, pagination=pagination, page=page)
 
 
 @app.route('/add', methods=['GET', 'POST'])
