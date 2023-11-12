@@ -33,6 +33,30 @@ def generate_code():
         return jsonify(error_json)
 
 
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
+        username = request.form.get('username', type=str).strip()
+        pwd = request.form.get('pwd', type=str).strip()
+
+        if db.username_exists(username):
+            flash('用户名已被注册，请选择不同的用户名。', 'error')
+            return redirect(url_for('register'))
+        # print(db.username_exists(username))
+        salt = bcrypt.gensalt()
+        spwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
+        # print(username," ",spwd," ",salt)
+        data = dict(
+            username=username,
+            pwd=spwd.decode('utf-8'),
+            salt=salt.decode('utf-8')
+        )
+        db.Insert('users', data)
+        return redirect(url_for('login'))
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if os.path.exists("./static/images"):
@@ -47,46 +71,21 @@ def login():
         _, userinfo = db.Query2('users', id, value)
         print(userinfo)
         pwd = request.form.get('pwd', type=str).strip()
-        if userinfo:
-            if bcrypt.checkpw(pwd.encode('utf-8'), userinfo[0][1].encode('utf-8')):
-                code_get = request.form.get('code').strip()
-                vfc_sha1 = hashlib.sha1()
-                vfc_sha1.update(code_get.encode('utf-8'))
-                if code_sha1 == vfc_sha1.hexdigest():
+        code_get = request.form.get('code').strip()
+        vfc_sha1 = hashlib.sha1()
+        vfc_sha1.update(code_get.encode('utf-8'))
+        if code_sha1 == vfc_sha1.hexdigest():
+            if userinfo:
+                if bcrypt.checkpw(pwd.encode('utf-8'), userinfo[0][1].encode('utf-8')):
                     session['username'] = username
                     return redirect(url_for('index'))
                 else:
-                    flash('验证码错误', 'error')
+                    flash('密码不正确', 'error')
             else:
-                flash('密码不正确', 'error')
+                flash('用户名不存在', 'error')
         else:
-            flash('用户名不存在', 'error')
+            flash('验证码错误', 'error')
         return render_template('login.html')
-
-
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    if request.method == 'GET':
-        return render_template('register.html')
-    else:
-        username = request.form.get('username',type=str)
-        pwd = request.form.get('pwd',type=str)
-
-        if db.username_exists(username):
-            flash('用户名已被注册，请选择不同的用户名。', 'error')
-            return redirect(url_for('register'))
-        # print(db.username_exists(username))
-        salt = bcrypt.gensalt()
-        spwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
-        # print(username," ",spwd," ",salt)
-        data = dict(
-            username=username,
-            pwd=spwd.decode('utf-8'),
-            salt=salt.decode('utf-8')
-        )
-        db.Insert('users',data)
-        return redirect(url_for('login'))
-
 
 
 @app.route('/', methods=['GET'])
@@ -127,11 +126,11 @@ def add():
 
     data = dict(
         stu_id=request.form.get('stu_id', type=int),
-        stu_name=request.form.get('stu_name', type=str),
-        stu_sex=request.form.get('stu_sex', type=str),
+        stu_name=request.form.get('stu_name', type=str).strip(),
+        stu_sex=request.form.get('stu_sex', type=str).strip(),
         stu_age=request.form.get('stu_age', type=int),
-        stu_origin=request.form.get('stu_origin', type=str),
-        stu_profession=request.form.get('stu_profession', type=str)
+        stu_origin=request.form.get('stu_origin', type=str).strip(),
+        stu_profession=request.form.get('stu_profession', type=str).strip()
     )
     db.Insert('student_info', data)
     return redirect(url_for('index'))
@@ -144,7 +143,7 @@ def update():
 
     if request.method == 'GET':
         ids = ['stu_id']
-        stu_id = request.args.get('id', type=str)
+        stu_id = request.args.get('id', type=int)
         values = [stu_id]
         _, stu = db.Query2('student_info', ids, values)
         _, pros = db.selectAll('student_profession')
@@ -153,11 +152,11 @@ def update():
     data = dict(
         ID=['stu_id'],
         stu_id=request.form.get('stu_id', type=int),
-        stu_name=request.form.get('stu_name', type=str),
-        stu_sex=request.form.get('stu_sex', type=str),
+        stu_name=request.form.get('stu_name', type=str).strip(),
+        stu_sex=request.form.get('stu_sex', type=str).strip(),
         stu_age=request.form.get('stu_age', type=int),
-        stu_origin=request.form.get('stu_origin', type=str),
-        stu_profession=request.form.get('stu_profession', type=str)
+        stu_origin=request.form.get('stu_origin', type=str).strip(),
+        stu_profession=request.form.get('stu_profession', type=str).strip()
     )
     db.Update('student_info', data)
     return redirect(url_for('index'))

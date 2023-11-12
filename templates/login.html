@@ -5,73 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/login.css" rel="stylesheet" type="text/css">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>    
 </head>
 <body>
-    <div class="container">
-        <div class="row"> 
-            <div class="col"></div>
-             <div class="col">
-                <br>
-                 <a href="/register">点此注册账号</a>
-                <form class="form-horizontal" action="login" method="post">
-                    <div class="form-group">
-                        <label class="col control-label" for="username">用户名：</label>
-                        <div class="col">
-                            <input class="form-control" name="username" type="text" id="username">
+    <!-- <div class="loginForm"></div> -->
+    <div class="loginForm">
+        <h2>用户登录</h2>
+        
+        <form class="form-horizontal" action="login" method="post">
+            <div class="form-group">
+                <label class="col control-label" for="username">用户名：</label>
+                <div class="col">
+                    <input class="form-control" name="username" type="text" id="username">
 
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col control-label" for="pwd">密码：</label>
+                <div class="col">
+                    <input class="form-control" name="pwd" type="password" id="pwd">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col control-label" for="pwd">密码：</label>
-                        <div class="col">
-                            <input class="form-control" name="pwd" type="password" id="pwd">
-                            {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                            <div class="alert alert-danger">
-                            {% for message in messages %}
-                                <p>{{ message }}</p>
-                            {% endfor %}
-                             </div>
-                            {% endif %}
-                            {% endwith %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default btn-outline-primary" onclick="send()">登录</button>
+                    <button type="reset" class="btn btn-default btn-outline-primary">重置</button>
+                </div>
+                <a href="/register">点此注册账号</a>
+            </div>
+            <div class="modal fade" id="code-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">验证码弹窗</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button" class="btn btn-default" onclick="send()">登录</button>
-                            <button type="reset" class="btn btn-default">重置</button>
+                        <div class="modal-body">
+                            <span>请计算验证码中算式的值。</span>
+                            <div id="code-content"></div>
+                            <button type="button" class="btn btn-link" onclick="again()">看不清？换一张</button>
                         </div>
-                    </div>
-                    <div class="modal fade" id="code-modal">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title">验证码弹窗</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <span>请计算验证码中算式的值。</span>
-                                    <div id="code-content"></div>
-                                    <button type="button" class="btn btn-link" onclick="again()">看不清？换一张</button>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" name="code" placeholder="请输入答案">
-                                        <div class="input-group-append">
-                                            <button id="send-btn" type="submit" class="btn btn-outline-primary">
-                                                确认
-                                            </button>
-                                        </div>
-                                    </div>
+                        <div class="modal-footer">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="code" placeholder="请输入答案">
+                                <div class="input-group-append">
+                                    <button id="send-btn" type="submit" class="btn btn-outline-primary">
+                                        确认
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
-             </div>
-        </div>
+                </div>
+            </div>
+        </form>
     </div>
 </body>
 <script>
