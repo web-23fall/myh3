@@ -1,6 +1,6 @@
 from flask import Flask, request, session, redirect, url_for, render_template, flash, jsonify
 from db.sql_conn import DataBase
-from utils.util import generate_equation, generate_image, paging
+from hand_utils.util import generate_equation, generate_image, paging
 
 import bcrypt, hashlib, os, shutil
 
@@ -186,6 +186,26 @@ def deleteAll():
     for stuId in idlist:
         db.DeleteById('student_info', 'stu_id', stuId)
 
+    return redirect(url_for('index'))
+
+
+@app.route('/updateAge', methods=['GET', 'POST'])
+def updateAge():
+    if not checkLogin():
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        page = request.args.get('page', 1, type=int)
+        desp, result = db.selectAll('student_info')
+
+        results, pagination = paging(result, page, per_page=20)
+
+        return render_template('updateAge.html', results=results, desp=desp, pagination=pagination, page=page)
+
+    stu_age = int(request.form.get('age'))
+    # stu_age = request.args.get("age", type=int)
+    idlist = request.form.getlist('ids')
+    for stuId in idlist:
+        db.UpdateAgeById('student_info', 'stu_id', stuId, stu_age)
     return redirect(url_for('index'))
 
 
