@@ -49,7 +49,7 @@ class DataBase:
         values = []
         for i in range(len(id)):
             values.append("%s='%s'" % (id[i], value[i]))
-        sql = "select * from %s where %s" % (table, ' and '.join(values))
+        sql = "select * from %s where %s" % (table, " and ".join(values))
         print(sql)
         cur.execute(sql)
 
@@ -78,12 +78,12 @@ class DataBase:
         cur = conn.cursor()
         values = []
         ids = []
-        idNames = data['ID']
+        idNames = data["ID"]
         print(idNames)
         for v in list(data):
             if v in idNames:
                 ids.append("%s='%s'" % (v, data[v]))
-            elif v != 'ID':
+            elif v != "ID":
                 values.append("%s='%s'" % (v, data[v]))
         sql = "update %s set %s where %s" % (table, ",".join(values), " and ".join(ids))
         print(sql)
@@ -98,7 +98,11 @@ class DataBase:
         fieldNames = list(data)
         for v in fieldNames:
             values.append(data[v])
-        sql = "insert into %s (%s) values (%s) " % (table, ",".join(fieldNames), ",".join(["?"] * len(fieldNames)))
+        sql = "insert into %s (%s) values (%s) " % (
+            table,
+            ",".join(fieldNames),
+            ",".join(["?"] * len(fieldNames)),
+        )
         print(sql)
         cur.execute(sql, values)
         conn.commit()
@@ -131,7 +135,11 @@ class DataBase:
             for i in range(len(id)):
                 values.append("%s='%s'" % (id[i], value[i]))
             # sql = "delete from %s where %s" % (table, " and ".join(values))
-            sql = "update %s set stu_age=%d where %s" % (table, age, " and ".join(values))
+            sql = "update %s set stu_age=%d where %s" % (
+                table,
+                age,
+                " and ".join(values),
+            )
             print(sql)
             cur.execute(sql)
             conn.commit()
