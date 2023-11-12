@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>updateAge</title>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        table, tr, td {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>请选择要更新年龄的学生：</h1>
+    <form action="/updateAge" method="post">
+        <button type="submit">批量修改年龄为：</button>
+        <input type="text" name="age" id="age">
+            <table>
+                <tr>
+                    <td></td>
+                    {% for d in desp %}
+                    <td>{{ d }}</td>
+                    {% endfor %}
+                </tr>
+                {% for item in results %}
+                <tr>
+                    <td>
+                        <input type="checkbox", name="ids", value="{{ item[0] }}">
+                    </td>
+                    {% for v in item %}
+                    <td>{{ v }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
+<div>
+    <button onclick="window.location.href='{{ url_for('updateAge', page=1) }}'">首页</button>
+
+    {% if page > 1 %}
+        <button onclick="window.location.href='{{ url_for('updateAge', page=page-1) }}'">上一页</button>
+    {% endif %}
+
+    {% for i in range(page-2, page+3) %}
+        {% if i > 0 and i <= pagination %}
+            {% if i != page %}
+                <button onclick="window.location.href='{{ url_for('updateAge', page=i) }}'">{{ i }}</button>
+            {% else %}
+                <button disabled>{{ i }}</button>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if page < pagination %}
+        <button onclick="window.location.href='{{ url_for('updateAge', page=page+1) }}'">下一页</button>
+    {% endif %}
+
+    <button onclick="window.location.href='{{ url_for('updateAge', page=pagination) }}'">尾页</button>
+</div>
+</body>
+</html>
+
