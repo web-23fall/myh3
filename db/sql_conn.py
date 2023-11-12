@@ -122,3 +122,23 @@ class DataBase:
             cur.execute(sql, (value,))
             conn.commit()
         Close(conn)
+
+    def UpdateAgeById(self, table, id, value, age):
+        conn = self.Open()
+        values = []
+        cur = conn.cursor()
+        if type(id) in [list]:
+            for i in range(len(id)):
+                values.append("%s='%s'" % (id[i], value[i]))
+            # sql = "delete from %s where %s" % (table, " and ".join(values))
+            sql = "update %s set stu_age=%d where %s" % (table, age, " and ".join(values))
+            print(sql)
+            cur.execute(sql)
+            conn.commit()
+        else:
+            # sql = "delete from %s where %s=?" % (table, id)
+            sql = "update %s set stu_age=%d where %s=?" % (table, age, id)
+            print(sql)
+            cur.execute(sql, (value,))
+            conn.commit()
+        Close(conn)
