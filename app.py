@@ -29,7 +29,7 @@ def repeat():
     if logging_in_users <= THRESHOLD_USERS:
         if os.path.exists("./static/images"):
             shutil.rmtree('./static/images')
-        os.mkdir('./static/images')
+            os.mkdir('./static/images')
     createTimer()
 
 @socketio.on('connect')
