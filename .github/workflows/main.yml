@@ -1,0 +1,51 @@
+name: Test feasibility of the project and check code quality with Qodana
+on:
+    workflow_dispatch:
+    pull_request:
+    push:
+        branches:
+            - master
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup Python
+            uses: actions/setup-python@v2
+            with:
+                python-version: 3.10
+
+            - name: Install dependencies
+            run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+
+            - name: Check if code can be started
+            run: |
+                python app.py
+
+    qodana:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+            checks: write
+        steps:
+            - uses: actions/checkout@v3
+            with:
+                ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
+                fetch-depth: 0  # a full history is required for pull request analysis
+
+            - name: 'Qodana Scan'
+            uses: JetBrains/qodana-action@v2023.2
+            with: 
+                pr-mode: false
+                args: --apply-fixes
+                push-fixes: pull-request
+            env:
+                QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
