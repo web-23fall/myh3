@@ -8,6 +8,7 @@
     <link href="/static/css/login.css" rel="stylesheet" type="text/css">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+    <script src="/static/js/login.js" type="module"></script>
 </head>
 <body>
     <!-- <div class="loginForm"></div> -->
@@ -72,44 +73,4 @@
         </form>
     </div>
 </body>
-<script>
-    let lastImagePath = "";
-    function requestForCode() {
-        let code = "";
-        $.ajax({
-            url: '/code',
-            type: 'POST',
-            data: {
-                request_code: true,
-                last_image_path: lastImagePath
-            },
-            dataType: 'json',
-            async: false,
-            success: function(response) {
-                if (response.code.toString() == "server_error") {
-                    alert("服务器意外错误，请刷新页面重试");
-                } else if (response.code.toString() != "error") {
-                    code = response.code.toString();
-                    lastImagePath = response.path.toString();
-                }
-                return;
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-        return code;
-    }
-
-    function send() {
-        code = requestForCode();
-        $("#code-modal").modal("show");
-        document.getElementById("code-content").innerHTML = "<img src='.." + lastImagePath.substring(1) + "'/>";
-    }
-
-    function again() {
-        code = requestForCode();
-        document.getElementById("code-content").innerHTML = "<img src='.." + lastImagePath.substring(1) + "'/>";
-    }
-</script>
 </html>
