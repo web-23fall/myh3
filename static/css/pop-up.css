@@ -1,0 +1,39 @@
+        .active {
+            filter: blur(20px);
+            /* 模糊界面 */
+            pointer-events: none;
+            /* 阻止用户点击或与页面上的元素交互 */
+            user-select: none;
+            /* 阻止用户选择文本 */
+        }
+
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+
+        .popup1,
+        .popup2,
+        .popup3{
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            padding: 50px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            background-color: #ffffff;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .popupActive {
+            top: 50%;
+            visibility: visible;
+            opacity: 1;
+            transition: 0.5s;
+        }
