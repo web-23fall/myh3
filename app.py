@@ -101,7 +101,7 @@ def register():
         data = dict(
             username=username, pwd=spwd.decode("utf-8"), salt=salt.decode("utf-8")
         )
-        db.Insert("users", data)
+        db.insert("users", data)
         return redirect(url_for("login"))
 
 
@@ -115,7 +115,7 @@ def login():
         ids = ["username"]
         username = request.form.get("username", type=str).strip()
         value = [username]
-        _, userinfo = db.Query2("users", ids, value)
+        _, userinfo = db.query2("users", ids, value)
         print(userinfo)
         pwd = request.form.get("pwd", type=str).strip()
         code_get = request.form.get("code").strip()
@@ -154,7 +154,7 @@ def index():
             values.append(stu_name.strip())
 
     if len(ids) != 0:
-        desp, result = db.Query2("student_info", ids, values)
+        desp, result = db.query2("student_info", ids, values)
     else:
         desp, result = db.selectAll("student_info")
 
@@ -181,7 +181,7 @@ def add():
         stu_origin=request.form.get("stu_origin", type=str).strip(),
         stu_profession=request.form.get("stu_profession", type=str).strip(),
     )
-    db.Insert("student_info", data)
+    db.insert("student_info", data)
     return redirect(url_for("index"))
 
 
@@ -194,7 +194,7 @@ def update():
         ids = ["stu_id"]
         stu_id = request.args.get("id", type=int)
         values = [stu_id]
-        _, stu = db.Query2("student_info", ids, values)
+        _, stu = db.query2("student_info", ids, values)
         _, pros = db.selectAll("student_profession")
         return render_template("update.html", stu=stu[0], pros=pros)
 
@@ -207,7 +207,7 @@ def update():
         stu_origin=request.form.get("stu_origin", type=str).strip(),
         stu_profession=request.form.get("stu_profession", type=str).strip(),
     )
-    db.Update("student_info", data)
+    db.update("student_info", data)
     return redirect(url_for("index"))
 
 
@@ -215,7 +215,7 @@ def update():
 def delete(ids):
     if not checkLogin():
         return redirect(url_for("login"))
-    db.DeleteById("student_info", "stu_id", ids)
+    db.deleteById("student_info", "stu_id", ids)
     return redirect(url_for("index"))
 
 
@@ -232,7 +232,7 @@ def deleteAll():
 
     idlist = request.form.getlist("ids")
     for stuId in idlist:
-        db.DeleteById("student_info", "stu_id", stuId)
+        db.deleteById("student_info", "stu_id", stuId)
 
     return redirect(url_for("index"))
 
@@ -259,7 +259,7 @@ def updateAge():
     # stu_age = request.args.get("age", type=int)
     idlist = request.form.getlist("ids")
     for stuId in idlist:
-        db.UpdateAgeById("student_info", "stu_id", stuId, stu_age)
+        db.updateAgeById("student_info", "stu_id", stuId, stu_age)
     return redirect(url_for("index"))
 
 

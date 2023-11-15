@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def Close(conn):
+def close(conn):
     conn.close()
 
 
@@ -9,12 +9,12 @@ class DataBase:
     def __init__(self, db):
         self.database = db
 
-    def Open(self):
+    def open(self):
         conn = sqlite3.connect(self.database)
         return conn
 
-    def Query(self, sql):
-        conn = self.Open()
+    def query(self, sql):
+        conn = self.open()
         cur = conn.cursor()
         cur.execute(sql)
 
@@ -24,11 +24,11 @@ class DataBase:
         result = cur.fetchall()
 
         cur.close()
-        Close(conn)
+        close(conn)
         return description, result
 
     def selectAll(self, table):
-        conn = self.Open()
+        conn = self.open()
         cur = conn.cursor()
         sql = "select * from %s" % table
         print(sql)
@@ -40,11 +40,11 @@ class DataBase:
         result = cur.fetchall()
 
         cur.close()
-        Close(conn)
+        close(conn)
         return description, result
 
-    def Query2(self, table, ids, value):
-        conn = self.Open()
+    def query2(self, table, ids, value):
+        conn = self.open()
         cur = conn.cursor()
         values = []
         for i in range(len(ids)):
@@ -59,22 +59,22 @@ class DataBase:
         result = cur.fetchall()
 
         cur.close()
-        Close(conn)
+        close(conn)
         return description, result
 
     def username_exists(self, username):
-        conn = self.Open()
+        conn = self.open()
         cur = conn.cursor()
         sql = "select * from users where username = %s" % username
         print(sql)
         cur.execute(sql)
         result = cur.fetchall()
         print(result)
-        Close(conn)
+        close(conn)
         return result
 
-    def Update(self, table, data):
-        conn = self.Open()
+    def update(self, table, data):
+        conn = self.open()
         cur = conn.cursor()
         values = []
         ids = []
@@ -89,10 +89,10 @@ class DataBase:
         print(sql)
         cur.execute(sql)
         conn.commit()
-        Close(conn)
+        close(conn)
 
-    def Insert(self, table, data):
-        conn = self.Open()
+    def insert(self, table, data):
+        conn = self.open()
         cur = conn.cursor()
         values = []
         fieldnames = list(data)
@@ -106,11 +106,11 @@ class DataBase:
         print(sql)
         cur.execute(sql, values)
         conn.commit()
-        Close(conn)
+        close(conn)
 
-    def DeleteById(self, table, ids, value):
+    def deleteById(self, table, ids, value):
         # print(type(id))
-        conn = self.Open()
+        conn = self.open()
         values = []
         cur = conn.cursor()
         if type(ids) in [list]:
@@ -125,10 +125,10 @@ class DataBase:
             print(sql)
             cur.execute(sql, (value,))
             conn.commit()
-        Close(conn)
+        close(conn)
 
-    def UpdateAgeById(self, table, ids, value, age):
-        conn = self.Open()
+    def updateAgeById(self, table, ids, value, age):
+        conn = self.open()
         values = []
         cur = conn.cursor()
         if type(ids) in [list]:
@@ -149,4 +149,4 @@ class DataBase:
             print(sql)
             cur.execute(sql, (value,))
             conn.commit()
-        Close(conn)
+        close(conn)
