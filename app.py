@@ -72,10 +72,10 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     else:
-        id = ["username"]
+        ids = ["username"]
         username = request.form.get("username", type=str).strip()
         value = [username]
-        _, userinfo = db.Query2("users", id, value)
+        _, userinfo = db.Query2("users", ids, value)
         print(userinfo)
         pwd = request.form.get("pwd", type=str).strip()
         code_get = request.form.get("code").strip()
@@ -171,11 +171,11 @@ def update():
     return redirect(url_for("index"))
 
 
-@app.route("/delete/<int:id>", methods=["GET"])
-def delete(id):
+@app.route("/delete/<int:ids>", methods=["GET"])
+def delete(ids):
     if not checkLogin():
         return redirect(url_for("login"))
-    db.DeleteById("student_info", "stu_id", id)
+    db.DeleteById("student_info", "stu_id", ids)
     return redirect(url_for("index"))
 
 
