@@ -10,8 +10,10 @@ from flask import (
 )
 from db.sql_conn import DataBase
 from hand_utils.util import generate_equation, generate_image, paging
+from flask_socketio import SocketIO, emit
 
-import bcrypt, hashlib, os, shutil
+import bcrypt, hashlib, os, shutil, threading
+
 
 app = Flask(__name__)
 app.secret_key = "qwq"
@@ -19,9 +21,40 @@ app.secret_key = "qwq"
 db = DataBase("./db/user.db")
 code_sha1 = ""
 
+socketio = SocketIO(app)
+logging_in_users = 0
+THRESHOLD_USERS = 5
+EXECUTE_TIME = 600
+
 
 def checkLogin():
     return True if "username" in session else False
+
+
+def createTimer():
+    t = threading.Timer(EXECUTE_TIME, repeat)
+    t.start()
+
+
+def repeat():
+    global logging_in_users
+    if logging_in_users <= THRESHOLD_USERS:
+        if os.path.exists("./static/images"):
+            shutil.rmtree("./static/images")
+            os.mkdir("./static/images")
+    createTimer()
+
+
+@socketio.on("connect")
+def handle_connect():
+    global logging_in_users
+    logging_in_users += 1
+
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    global logging_in_users
+    logging_in_users -= 1
 
 
 @app.route("/code", methods=["POST"])
@@ -33,7 +66,15 @@ def generate_code():
         global code_sha1
         code_sha1 = _
         if last_image_path != "":
-            os.remove(last_image_path)
+            if not os.path.exists(last_image_path):
+                server_error_json = {
+                    "code": "server_error",
+                    "path": "",
+                    "status": "failed",
+                }
+                return jsonify(server_error_json)
+            else:
+                os.remove(last_image_path)
         img_path = generate_image(eqt)
         code_json = {"code": eqt, "path": img_path, "status": "success"}
         return jsonify(code_json)
@@ -66,9 +107,8 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if os.path.exists("./static/images"):
-        shutil.rmtree("./static/images")
-    os.mkdir("./static/images")
+    if not os.path.exists("./static/images"):
+        os.mkdir("./static/images")
     if request.method == "GET":
         return render_template("login.html")
     else:
@@ -223,5 +263,9 @@ def updateAge():
     return redirect(url_for("index"))
 
 
+createTimer()
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    # When deploying the project on a cloud server, you need to change the value of "host" in the parameters.
+    # Linux server can check the intranet IP address through the "ifconfig" command.
+    socketio.run(app, host="127.0.0.1", port=5000, debug=True)

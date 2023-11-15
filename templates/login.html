@@ -86,8 +86,12 @@
             dataType: 'json',
             async: false,
             success: function(response) {
-                code = response.code.toString();
-                lastImagePath = response.path.toString();
+                if (response.code.toString() == "server_error") {
+                    alert("服务器意外错误，请刷新页面重试");
+                } else if (response.code.toString() != "error") {
+                    code = response.code.toString();
+                    lastImagePath = response.path.toString();
+                }
                 return;
             },
             error: function(error) {
