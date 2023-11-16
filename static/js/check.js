@@ -15,7 +15,7 @@ const checkStringWithUpperLowerNumSpecialAtLeastThreeTypes = (str) => {
     const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
     const typeLower = ((str.match(/[a-z]/g) || []).length) > 0;
     const typeNum = ((str.match(/[0-9]/g) || []).length) > 0;
-    const typeSpecial = ((str.match(/[!@#$%^&*-_]/g) || []).length) > 0;
+    const typeSpecial = ((str.match(/[!@#$%^&-_]/g) || []).length) > 0;
     return (typeUpper + typeLower + typeNum + typeSpecial) >= 3;
 }
 
@@ -26,7 +26,7 @@ const checkStringWithSpecificLength = (str, min, max) => {
 
 export const checkUsername = (username) => {
     // check username
-    // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&*-_] at least three types, start with [A-Za-z0-9_]
+    // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&-_] at least three types, start with [A-Za-z0-9_]
     if(!checkStringWithSpecificLength(username, 6, 16)) {
         return false;
     }
@@ -39,7 +39,7 @@ export const checkUsername = (username) => {
 
 export const checkPassword = (password) => {
     // check password by regex or other ways
-    // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&*-_] at least three types
+    // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&-_] at least three types
     return checkStringWithUpperLowerNumSpecialAtLeastThreeTypes(password) && 
            checkStringWithSpecificLength(password, 6, 16);
 }

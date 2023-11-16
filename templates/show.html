@@ -7,25 +7,19 @@
     <title>show</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/pop-up.css" rel="stylesheet">
+    <link href="/static/css/show.css" rel="stylesheet">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <style type="text/css">
-        table,
-        tr,
-        td {
-            border: 1px solid black;
-            text-align: center;
-        }
-    </style>
+    <script src="/static/js/show.js" type="module"></script>
 </head>
 
 <body>
     <div id="container">
-        <form>
+        <form id="queryForm">
             <label for="name">姓名：</label>
             <input type="text" name="name" id="name" />
             <label for="id">学号：</label>
             <input type="text" name="id" id="id" />
-            <input type="submit" value="查询" class="btn btn-primary btn-sm" />
+            <input type="button" value="查询" class="btn btn-primary btn-sm" onclick="checkBeforeQuery()"/>
         </form>
         <a href="/add">新增数据</a>
         <a href="/updateAge">批量修改年龄</a>
@@ -92,7 +86,7 @@
         <button type="button" class="btn btn-primary">确定</button>
     </div>
 
-    <div class=" popup2">
+    <div class="popup2">
         <h2>
             MIS系统提示
         </h2>
@@ -102,7 +96,7 @@
         <button type="button" class="btn btn-primary">确定</button>
     </div>
 
-    <div class=" popup3">
+    <div class="popup3">
         <h2>
             MIS系统提示
         </h2>
@@ -112,39 +106,6 @@
         <button type="button" class="btn btn-primary">确定</button>
     </div>
 
-    <script>
-        // if (从后端发送的信息存在，记为message)
-        let blue = document.querySelector("#container");
-        let popup1 = document.querySelector(".popup1");
-        let popup2 = document.querySelector(".popup2");
-        let popup3 = document.querySelector(".popup3");
-        blue.classList.toggle("active");
-        if (message === 'success')
-            popup3.classList.toggle("popupActive");
-        else
-            popup2.classList.toggle("popupActive");
-
-        function toggle() {
-            let blue = document.querySelector("#container");
-            let popup1 = document.querySelector(".popup1");
-            let popup2 = document.querySelector(".popup2");
-            let popup3 = document.querySelector(".popup3");
-
-            //  if (message 不存在)
-            let flag_front = true;
-
-            // 前端验证
-
-            if (!flag_front) {
-                blue.classList.toggle("active");
-                popup1.classList.toggle("popupActive");
-            }
-            else {
-                document.getElementById('deleteForm').submit();
-            }
-        }
-
-    </script>
 </body>
 
 </html>

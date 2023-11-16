@@ -57,6 +57,20 @@ def handle_disconnect():
     logging_in_users -= 1
 
 
+# @app.before_request
+# def before_request():
+#     pattern = r"\b(and|like|exec|insert|select|drop|grant|alter|delete|update|count|chr|mid|master|truncate|char|delclare|or)\b|(\*|;)"
+#     if request.method == "GET":
+#         data = request.args
+#     else:
+#         data = request.json
+#     for v in data.values():
+#         v = str(v).lower()
+#         r = re.search(pattern, v)
+#         if r:
+#             return "请输入规范的参数！"
+
+
 @app.route("/code", methods=["POST"])
 def generate_code():
     data = request.form.get("request_code")

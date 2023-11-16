@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 def generate_equation():
     operator, ans = ("+", "-"), random.randint(1, 15)
     eqt = str(ans)
-    for i in range(2):
+    for _ in range(2):
         opr = random.randint(1, 15)
         opt = operator[random.randint(0, 1)]
         if opt == "+":
