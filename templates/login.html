@@ -6,6 +6,7 @@
     <title>login</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/login.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/pop-up.css" rel="stylesheet">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
     <script src="/static/js/login.js" type="module"></script>
@@ -27,15 +28,6 @@
                 <label class="col control-label" for="pwd">密码：</label>
                 <div class="col">
                     <input class="form-control" name="pwd" type="password" id="pwd">
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <div class="alert alert-danger">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                        </div>
-                    {% endif %}
-                    {% endwith %}
                 </div>
             </div>
             <div class="form-group">
@@ -71,6 +63,38 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="popup1">
+        <h2>
+            MIS系统提示
+        </h2>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
+    </div>
+
+    <div class="popup2">
+        <h2>
+            MIS系统提示
+        </h2>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
+    </div>
+
+    <div class="popup3">
+        <h2>
+            MIS系统提示
+        </h2>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+    </div>
+    <div id="flash-messages" style="display: none;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
 </body>
 </html>
