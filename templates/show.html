@@ -9,6 +9,7 @@
     <link href="/static/css/pop-up.css" rel="stylesheet">
     <link href="/static/css/show.css" rel="stylesheet">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
     <script src="/static/js/show.js" type="module"></script>
 </head>
 
@@ -24,8 +25,8 @@
         <a href="/add">新增数据</a>
         <a href="/updateAge">批量修改年龄</a>
         <br>
-        <form id="deleteForm" action="/delete_all" , method="post">
-            <button type="button" onclick="toggle()">批量删除</button>
+        <form id="deleteForm">
+            <button type="button" onclick="deleteForm()">批量删除</button>
             <table>
                 <tr>
                     <td></td>
@@ -73,37 +74,37 @@
         </div>
         <a href="/reset">退出登录</a>
     </div>
-
-
-
     <div class="popup1">
         <h2>
-            MIS系统提示
+            来自前端的警告
         </h2>
-        <p>
-            前端验证不通过
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
     </div>
 
     <div class="popup2">
         <h2>
-            MIS系统提示
+            来自后端的警告
         </h2>
-        <p>
-            后端验证不通过
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
     </div>
 
     <div class="popup3">
         <h2>
-            MIS系统提示
+            成功
         </h2>
-        <p>
-            已成功修改!
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+    </div>
+    <div id="flash-messages" style="display: none;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
 
 </body>

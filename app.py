@@ -171,7 +171,8 @@ def index():
         desp, result = db.query2("student_info", ids, values)
     else:
         desp, result = db.selectAll("student_info")
-
+    if len(result) == 0:
+        flash('查询结果为空，请检查查询条件', 'error')
     results, pagination = paging(result, page, per_page=20)
 
     return render_template(
@@ -243,8 +244,9 @@ def reset():
 def deleteAll():
     if not checkLogin():
         return redirect(url_for("login"))
-
-    idlist = request.form.getlist("ids")
+    print(request.form)
+    idlist = request.form.getlist("ids[]")
+    print(idlist)
     for stuId in idlist:
         db.deleteById("student_info", "stu_id", stuId)
 

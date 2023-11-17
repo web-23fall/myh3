@@ -1,3 +1,4 @@
+import { frontEndWarn, backEndWarn } from './pop-up.js';
 const checkStringWithUpperLowerChineseSpace = (str) => {
     // contains [A-Z], [a-z], chinese characters, space
     const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
@@ -70,4 +71,28 @@ export const checkHometown = (hometown) => {
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space
     return checkStringWithUpperLowerChineseSpace(hometown) && 
            checkStringWithSpecificLength(hometown, 1, 16);
+}
+
+export const frontEndWarnUsername = () => {
+    frontEndWarn("用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串");
+}
+
+export const frontEndWarnPassword = () => {
+    frontEndWarn("密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串");
+}
+
+export const frontEndWarnName = () => {
+    frontEndWarn("姓名不合法，应当为一个长度为 1-16 的，可包含空格，中文，英文，但不包含数字和特殊字符的字符串");
+}
+
+export const frontEndWarnId = () => {
+    frontEndWarn("学号不合法，应为一个长度为 1-16 的正整数");
+}
+
+export const frontEndWarnAge = () => {
+    frontEndWarn("年龄不合法，应当为一个 1-100 的正整数");
+}
+
+export const frontEndWarnHometown = () => {
+    frontEndWarn("籍贯不合法，应当为一个长度为 1-16 的，包含中英文的字符串");
 }

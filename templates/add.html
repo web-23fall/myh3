@@ -7,14 +7,17 @@
     <title>add</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/pop-up.css" rel="stylesheet">
+    <link href="/static/css/add.css" rel="stylesheet">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+    <script src="/static/js/add.js" type="module"></script>
 
 </head>
 
 <body>
     <div id="container">
         <h1>请输入要插入记录的相关信息</h1>
-        <form id="insertForm" name="insertForm" method="post" action="/add">
+        <form id="insertForm" method="post" action="/add">
             <label for="stu_id">学号：</label>
             <input type="text" name="stu_id" id="stu_id" />
             <p>
@@ -46,78 +49,44 @@
                 </select>
             </p>
             <p>
-                <input type="button" class="btn btn-primary" value="提交" onclick="toggle()" />
+                <input type="button" class="btn btn-primary" value="提交" onclick="checkAndSubmit()" />
                 <input type="reset" class="btn btn-primary" name="reset" value="重置" />
                 <br />
             </p>
         </form>
     </div>
-
     <div class="popup1">
         <h2>
-            MIS系统提示
+            来自前端的警告
         </h2>
-        <p>
-            前端验证不通过
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
     </div>
 
-    <div class=" popup2">
+    <div class="popup2">
         <h2>
-            MIS系统提示
+            来自后端的警告
         </h2>
-        <p>
-            后端验证不通过
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
     </div>
 
-    <div class=" popup3">
+    <div class="popup3">
         <h2>
-            MIS系统提示
+            成功
         </h2>
-        <p>
-            已成功修改!
-        </p>
-        <button type="submit" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
     </div>
-
-    <script>
-        // if (从后端发送的信息存在，记为message)
-        let blue = document.querySelector("#container");
-        let popup1 = document.querySelector(".popup1");
-        let popup2 = document.querySelector(".popup2");
-        let popup3 = document.querySelector(".popup3");
-        blue.classList.toggle("active");
-        if (message === 'success')
-            popup3.classList.toggle("popupActive");
-        else
-            popup2.classList.toggle("popupActive");
-
-        function toggle() {
-            let blue = document.querySelector("#container");
-            let popup1 = document.querySelector(".popup1");
-            let popup2 = document.querySelector(".popup2");
-            let popup3 = document.querySelector(".popup3");
-
-            //  if (message 不存在)
-            let flag_front = true;
-
-            // 前端验证
-
-            if (!flag_front) {
-                blue.classList.toggle("active");
-                popup1.classList.toggle("popupActive");
-            }
-            else {
-                document.getElementById('insertForm').submit();
-            }
-        }
-
-
-
-    </script>
+    <div id="flash-messages" style="display: none;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
 
 </body>
