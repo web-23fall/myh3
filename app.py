@@ -172,7 +172,7 @@ def index():
     else:
         desp, result = db.selectAll("student_info")
     if len(result) == 0:
-        flash('查询结果为空，请检查查询条件', 'error')
+        flash("查询结果为空，请检查查询条件", "error")
     results, pagination = paging(result, page, per_page=20)
 
     return render_template(

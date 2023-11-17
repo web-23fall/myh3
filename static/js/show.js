@@ -1,10 +1,10 @@
 import {checkId, checkName, frontEndWarnId, frontEndWarnName} from './check.js';
-import {backEndWarn, flashBackMessages, frontEndWarn, success} from "./pop-up.js";
+import {flashBackMessages, frontEndWarn, success} from "./pop-up.js";
 
 export function checkBeforeQuery() {
     let name = document.getElementById('name').value;
     let id = document.getElementById('id').value;
-    if (name == "" || id == "") {
+    if (name === "" || id === "") {
         frontEndWarn("请输入完整的查询条件");
         return;
     }
@@ -43,14 +43,14 @@ export function deleteForm() {
             ids.push(checkbox.value);
         }
     });
-    if(cnt == 0) {
+    if(cnt === 0) {
         frontEndWarn("请至少选中一项，否则无法删除");
         return;
     }
     // 不需要刷新页面，用 ajax 重写 submit 逻辑
     submit(ids);
     let flashMessages = document.getElementById("flash-messages").children;
-    if(flashMessages.length == 0) {
+    if(flashMessages.length === 0) {
         success('批量删除成功，点击下方确认后刷新页面');
         return;
     }

@@ -7,23 +7,16 @@
     <title>updateAge</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/pop-up.css" rel="stylesheet">
+    <link href="/static/css/updateAge.css" rel="stylesheet">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-
-    <style type="text/css">
-        table,
-        tr,
-        td {
-            border: 1px solid black;
-            text-align: center;
-        }
-    </style>
+    <script src="/static/js/updateAge.js" type="module"></script>
 </head>
 
 <body>
     <div id="container">
         <h1>请选择要更新年龄的学生：</h1>
         <form id="updateAge" action="/updateAge" method="post">
-            <button type="button" onclick="toggle()">批量修改年龄为：</button>
+            <button type="button" onclick="checkBeforeUpdateAge()">批量修改年龄为：</button>
             <input type="text" name="age" id="age">
             <table>
                 <tr>
@@ -63,79 +56,41 @@
                 {% if page < pagination %} <button
                     onclick="window.location.href='{{ url_for('updateAge', page=page+1) }}'">下一页</button>
                     {% endif %}
-
                     <button onclick="window.location.href='{{ url_for('updateAge', page=pagination) }}'">尾页</button>
         </div>
     </div>
-
     <div class="popup1">
         <h2>
-            MIS系统提示
+            来自前端的警告
         </h2>
-        <p>
-            前端验证不通过
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
     </div>
 
-    <div class=" popup2">
+    <div class="popup2">
         <h2>
-            MIS系统提示
+            来自后端的警告
         </h2>
-        <p>
-            后端验证不通过
-        </p>
-        <button type="button" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
     </div>
 
-    <div class=" popup3">
+    <div class="popup3">
         <h2>
-            MIS系统提示
+            成功
         </h2>
-        <p>
-            已成功修改!
-        </p>
-        <button type="submit" class="btn btn-primary">确定</button>
+        <p></p>
+        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
     </div>
-
-    <script>
-        // if (从后端发送的信息存在，记为message)
-        let blue = document.querySelector("#container");
-        let popup1 = document.querySelector(".popup1");
-        let popup2 = document.querySelector(".popup2");
-        let popup3 = document.querySelector(".popup3");
-        blue.classList.toggle("active");
-        if (message === 'success')
-            popup3.classList.toggle("popupActive");
-        else
-            popup2.classList.toggle("popupActive");
-
-        function toggle() {
-            let blue = document.querySelector("#container");
-            let popup1 = document.querySelector(".popup1");
-            let popup2 = document.querySelector(".popup2");
-            let popup3 = document.querySelector(".popup3");
-
-            //  if (message 不存在)
-            let flag_front = true;
-
-            // 前端验证
-
-            if (!flag_front) {
-                blue.classList.toggle("active");
-                popup1.classList.toggle("popupActive");
-            }
-            else {
-                document.getElementById('updateAge').submit();
-            }
-        }
-
-
-
-    </script>
-
-
-
+    <div id="flash-messages" style="display: none;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 </body>
 
 </html>
