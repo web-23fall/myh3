@@ -30,7 +30,15 @@
             opacity: 0;
             transition: 0.5s;
         }
-
+        .popup1 {
+            z-index: 999;
+        }
+        .popup2 {
+            z-index: 888;
+        }
+        .popup3 {
+            z-index: 0;
+        }
         .popupActive {
             top: 50%;
             visibility: visible;

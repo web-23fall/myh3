@@ -7,117 +7,86 @@
     <title>add</title>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/pop-up.css" rel="stylesheet">
+    <link href="/static/css/add.css" rel="stylesheet">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+    <script src="/static/js/add.js" type="module"></script>
 
 </head>
 
 <body>
-    <div id="container">
-        <h1>请输入要插入记录的相关信息</h1>
-        <form id="insertForm" name="insertForm" method="post" action="/add">
-            <label for="stu_id">学号：</label>
-            <input type="text" name="stu_id" id="stu_id" />
-            <p>
-                <label for="stu_name">姓名：</label>
-                <input type="text" name="stu_name" id="stu_name" />
-            </p>
-            <p>
-                <label for="stu_sex">性别：</label>
-                <input type="radio" name="stu_sex" id="male" value="男" />
-                男
-                <input type="radio" name="stu_sex" id="female" value="女" />
-                女
-                <br />
-            </p>
-            <p>
-                <label for="stu_age">年龄：</label>
-                <input type="text" name="stu_age" id="stu_age" />
-            </p>
-            <p>
-                <label for="stu_origin">籍贯：</label>
-                <input type="text" name="stu_origin" id="stu_origin" />
-            </p>
-            <p>
-                <label for="stu_profession">专业：</label>
-                <select id="stu_profession" name="stu_profession">
-                    {% for pro in pros %}
-                    <option value="{{ pro[1] }}">{{ pro[1] }}</option>
-                    {% endfor %}
-                </select>
-            </p>
-            <p>
-                <input type="button" class="btn btn-primary" value="提交" onclick="toggle()" />
-                <input type="reset" class="btn btn-primary" name="reset" value="重置" />
-                <br />
-            </p>
-        </form>
-    </div>
-
-    <div class="popup1">
-        <h2>
-            MIS系统提示
-        </h2>
+<div id="container">
+    <h1>请输入要插入记录的相关信息</h1>
+    <form id="insertForm" method="post" action="/add">
+        <label for="stu_id">学号：</label>
+        <input type="text" name="stu_id" id="stu_id"/>
         <p>
-            前端验证不通过
+            <label for="stu_name">姓名：</label>
+            <input type="text" name="stu_name" id="stu_name"/>
         </p>
-        <button type="button" class="btn btn-primary">确定</button>
-    </div>
-
-    <div class=" popup2">
-        <h2>
-            MIS系统提示
-        </h2>
         <p>
-            后端验证不通过
+            <label for="stu_sex">性别：</label>
+            <input type="radio" name="stu_sex" id="male" value="男"/>
+            男
+            <input type="radio" name="stu_sex" id="female" value="女"/>
+            女
+            <br/>
         </p>
-        <button type="button" class="btn btn-primary">确定</button>
-    </div>
-
-    <div class=" popup3">
-        <h2>
-            MIS系统提示
-        </h2>
         <p>
-            已成功修改!
+            <label for="stu_age">年龄：</label>
+            <input type="text" name="stu_age" id="stu_age"/>
         </p>
-        <button type="submit" class="btn btn-primary">确定</button>
-    </div>
+        <p>
+            <label for="stu_origin">籍贯：</label>
+            <input type="text" name="stu_origin" id="stu_origin"/>
+        </p>
+        <p>
+            <label for="stu_profession">专业：</label>
+            <select id="stu_profession" name="stu_profession">
+                {% for pro in pros %}
+                <option value="{{ pro[1] }}">{{ pro[1] }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" value="提交" onclick="checkAndSubmit()"/>
+            <input type="reset" class="btn btn-primary" name="reset" value="重置"/>
+            <br/>
+        </p>
+    </form>
+</div>
+<div class="popup1">
+    <h2>
+        来自前端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
+</div>
 
-    <script>
-        // if (从后端发送的信息存在，记为message)
-        let blue = document.querySelector("#container");
-        let popup1 = document.querySelector(".popup1");
-        let popup2 = document.querySelector(".popup2");
-        let popup3 = document.querySelector(".popup3");
-        blue.classList.toggle("active");
-        if (message === 'success')
-            popup3.classList.toggle("popupActive");
-        else
-            popup2.classList.toggle("popupActive");
+<div class="popup2">
+    <h2>
+        来自后端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
+</div>
 
-        function toggle() {
-            let blue = document.querySelector("#container");
-            let popup1 = document.querySelector(".popup1");
-            let popup2 = document.querySelector(".popup2");
-            let popup3 = document.querySelector(".popup3");
-
-            //  if (message 不存在)
-            let flag_front = true;
-
-            // 前端验证
-
-            if (!flag_front) {
-                blue.classList.toggle("active");
-                popup1.classList.toggle("popupActive");
-            }
-            else {
-                document.getElementById('insertForm').submit();
-            }
-        }
-
-
-
-    </script>
+<div class="popup3">
+    <h2>
+        成功
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+</div>
+<div id="flash-messages" style="display: none;">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
 
 
 </body>

@@ -1,0 +1,20 @@
+.loginForm {
+    height: 350px;
+    width: 500px;
+    border: solid 1px #4d4d4d;
+    margin-top: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 40px;
+    border-radius: 4px;
+    box-shadow: 5px 5px 5px #4d4d4d;
+}
+
+.loginForm h2 {
+    text-align: center;
+}
+
+.button {
+    text-align: center;
+    vertical-align: middle;
+}

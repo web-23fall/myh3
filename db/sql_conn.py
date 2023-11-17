@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def Close(conn):
+def close(conn):
     conn.close()
 
 
@@ -9,12 +9,12 @@ class DataBase:
     def __init__(self, db):
         self.database = db
 
-    def Open(self):
+    def open(self):
         conn = sqlite3.connect(self.database)
         return conn
 
-    def Query(self, sql):
-        conn = self.Open()
+    def query(self, sql):
+        conn = self.open()
         cur = conn.cursor()
         cur.execute(sql)
 
@@ -24,11 +24,11 @@ class DataBase:
         result = cur.fetchall()
 
         cur.close()
-        Close(conn)
+        close(conn)
         return description, result
 
     def selectAll(self, table):
-        conn = self.Open()
+        conn = self.open()
         cur = conn.cursor()
         sql = "select * from %s" % table
         print(sql)
@@ -40,16 +40,19 @@ class DataBase:
         result = cur.fetchall()
 
         cur.close()
-        Close(conn)
+        close(conn)
         return description, result
 
-    def Query2(self, table, id, value):
-        conn = self.Open()
+    def query2(self, table, ids, value):
+        conn = self.open()
         cur = conn.cursor()
-        values = []
-        for i in range(len(id)):
-            values.append("%s='%s'" % (id[i], value[i]))
-        sql = "select * from %s where %s" % (table, ' and '.join(values))
+        if type(ids) in [list]:
+            values = []
+            for i in range(len(ids)):
+                values.append("%s='%s'" % (ids[i], value[i]))
+            sql = "select * from '%s' where %s" % (table, " and ".join(values))
+        else:
+            sql = "select * from '%s' where %s='%s'" % (table, ids, value)
         print(sql)
         cur.execute(sql)
 
@@ -59,86 +62,94 @@ class DataBase:
         result = cur.fetchall()
 
         cur.close()
-        Close(conn)
+        close(conn)
         return description, result
 
-    def username_exists(self, username):
-        conn = self.Open()
+    def checkid(self, table, idname, id):
+        conn = self.open()
         cur = conn.cursor()
-        sql = "select * from users where username = %s" % username
+        sql = "select * from '%s' where %s='%s'" % (table, idname, id)
         print(sql)
         cur.execute(sql)
         result = cur.fetchall()
         print(result)
-        Close(conn)
+        close(conn)
         return result
 
-    def Update(self, table, data):
-        conn = self.Open()
+    def update(self, table, data):
+        conn = self.open()
         cur = conn.cursor()
         values = []
         ids = []
-        idNames = data['ID']
-        print(idNames)
+        idnames = data["ID"]
+        print(idnames)
         for v in list(data):
-            if v in idNames:
+            if v in idnames:
                 ids.append("%s='%s'" % (v, data[v]))
-            elif v != 'ID':
+            elif v != "ID":
                 values.append("%s='%s'" % (v, data[v]))
         sql = "update %s set %s where %s" % (table, ",".join(values), " and ".join(ids))
         print(sql)
         cur.execute(sql)
         conn.commit()
-        Close(conn)
+        close(conn)
 
-    def Insert(self, table, data):
-        conn = self.Open()
+    def insert(self, table, data):
+        conn = self.open()
         cur = conn.cursor()
         values = []
-        fieldNames = list(data)
-        for v in fieldNames:
+        fieldnames = list(data)
+        for v in fieldnames:
             values.append(data[v])
-        sql = "insert into %s (%s) values (%s) " % (table, ",".join(fieldNames), ",".join(["?"] * len(fieldNames)))
+        sql = "insert into %s (%s) values (%s) " % (
+            table,
+            ",".join(fieldnames),
+            ",".join(["?"] * len(fieldnames)),
+        )
         print(sql)
         cur.execute(sql, values)
         conn.commit()
-        Close(conn)
+        close(conn)
 
-    def DeleteById(self, table, id, value):
+    def deleteById(self, table, ids, value):
         # print(type(id))
-        conn = self.Open()
+        conn = self.open()
         values = []
         cur = conn.cursor()
-        if type(id) in [list]:
-            for i in range(len(id)):
-                values.append("%s='%s'" % (id[i], value[i]))
+        if type(ids) in [list]:
+            for i in range(len(ids)):
+                values.append("%s='%s'" % (ids[i], value[i]))
             sql = "delete from %s where %s" % (table, " and ".join(values))
             print(sql)
             cur.execute(sql)
             conn.commit()
         else:
-            sql = "delete from %s where %s=?" % (table, id)
+            sql = "delete from %s where %s=?" % (table, ids)
             print(sql)
             cur.execute(sql, (value,))
             conn.commit()
-        Close(conn)
+        close(conn)
 
-    def UpdateAgeById(self, table, id, value, age):
-        conn = self.Open()
+    def updateAgeById(self, table, ids, value, age):
+        conn = self.open()
         values = []
         cur = conn.cursor()
-        if type(id) in [list]:
-            for i in range(len(id)):
-                values.append("%s='%s'" % (id[i], value[i]))
+        if type(ids) in [list]:
+            for i in range(len(ids)):
+                values.append("%s='%s'" % (ids[i], value[i]))
             # sql = "delete from %s where %s" % (table, " and ".join(values))
-            sql = "update %s set stu_age=%d where %s" % (table, age, " and ".join(values))
+            sql = "update %s set stu_age=%d where %s" % (
+                table,
+                age,
+                " and ".join(values),
+            )
             print(sql)
             cur.execute(sql)
             conn.commit()
         else:
             # sql = "delete from %s where %s=?" % (table, id)
-            sql = "update %s set stu_age=%d where %s=?" % (table, age, id)
+            sql = "update %s set stu_age=%d where %s=?" % (table, age, ids)
             print(sql)
             cur.execute(sql, (value,))
             conn.commit()
-        Close(conn)
+        close(conn)
