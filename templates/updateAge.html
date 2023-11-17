@@ -13,84 +13,88 @@
 </head>
 
 <body>
-    <div id="container">
-        <h1>请选择要更新年龄的学生：</h1>
-        <form id="updateAge" action="/updateAge" method="post">
-            <button type="button" onclick="checkBeforeUpdateAge()">批量修改年龄为：</button>
-            <input type="text" name="age" id="age">
-            <table>
-                <tr>
-                    <td></td>
-                    {% for d in desp %}
-                    <td>{{ d }}</td>
-                    {% endfor %}
-                </tr>
-                {% for item in results %}
-                <tr>
-                    <td>
-                        <input type="checkbox" , name="ids" , value="{{ item[0] }}">
-                    </td>
-                    {% for v in item %}
-                    <td>{{ v }}</td>
-                    {% endfor %}
-                </tr>
+<div id="container">
+    <h1>请选择要更新年龄的学生：</h1>
+    <form id="updateAge" action="/updateAge" method="post">
+        <button type="button" onclick="checkBeforeUpdateAge()">批量修改年龄为：</button>
+        <input type="text" name="age" id="age">
+        <table>
+            <tr>
+                <td></td>
+                {% for d in desp %}
+                <td>{{ d }}</td>
                 {% endfor %}
-            </table>
-        </form>
-        <div>
-            <button onclick="window.location.href='{{ url_for('updateAge', page=1) }}'">首页</button>
-
-            {% if page > 1 %}
-            <button onclick="window.location.href='{{ url_for('updateAge', page=page-1) }}'">上一页</button>
-            {% endif %}
-
-            {% for i in range(page-2, page+3) %}
-            {% if i > 0 and i <= pagination %} {% if i !=page %} <button
-                onclick="window.location.href='{{ url_for('updateAge', page=i) }}'">{{ i }}</button>
-                {% else %}
-                <button disabled>{{ i }}</button>
-                {% endif %}
-                {% endif %}
+            </tr>
+            {% for item in results %}
+            <tr>
+                <td>
+                    <input type="checkbox" , name="ids" , value="{{ item[0] }}">
+                </td>
+                {% for v in item %}
+                <td>{{ v }}</td>
                 {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+    <div>
+        <button onclick="window.location.href='{{ url_for('updateAge', page=1) }}'">首页</button>
 
-                {% if page < pagination %} <button
-                    onclick="window.location.href='{{ url_for('updateAge', page=page+1) }}'">下一页</button>
-                    {% endif %}
-                    <button onclick="window.location.href='{{ url_for('updateAge', page=pagination) }}'">尾页</button>
-        </div>
-    </div>
-    <div class="popup1">
-        <h2>
-            来自前端的警告
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
-    </div>
+        {% if page > 1 %}
+        <button onclick="window.location.href='{{ url_for('updateAge', page=page-1) }}'">上一页</button>
+        {% endif %}
 
-    <div class="popup2">
-        <h2>
-            来自后端的警告
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
-    </div>
+        {% for i in range(page-2, page+3) %}
+        {% if i > 0 and i <= pagination %} {% if i !=page %}
+        <button
+                onclick="window.location.href='{{ url_for('updateAge', page=i) }}'">{{ i }}
+        </button>
+        {% else %}
+        <button disabled>{{ i }}</button>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
 
-    <div class="popup3">
-        <h2>
-            成功
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+        {% if page < pagination %}
+        <button
+                onclick="window.location.href='{{ url_for('updateAge', page=page+1) }}'">下一页
+        </button>
+        {% endif %}
+        <button onclick="window.location.href='{{ url_for('updateAge', page=pagination) }}'">尾页</button>
     </div>
-    <div id="flash-messages" style="display: none;">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
+</div>
+<div class="popup1">
+    <h2>
+        来自前端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
+</div>
+
+<div class="popup2">
+    <h2>
+        来自后端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
+</div>
+
+<div class="popup3">
+    <h2>
+        成功
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+</div>
+<div id="flash-messages" style="display: none;">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
 </body>
 
 </html>

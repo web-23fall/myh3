@@ -22,9 +22,10 @@ export function success(message) {
 
 export function flashBackMessages() {
     let flashMessages = document.getElementById("flash-messages").children;
+    console.log(flashMessages.length);
     console.assert(flashMessages.length <= 1);
-    if(flashMessages.length != 0) {
-        for(let i = 0;i < flashMessages.length;i++) {
+    if (flashMessages.length != 0) {
+        for (let i = 0; i < flashMessages.length; i++) {
             backEndWarn(flashMessages[i].textContent);
         }
     }
@@ -37,7 +38,7 @@ export function close1() {
 
 export function close2() {
     popup2.classList.toggle("popupActive");
-    if(window.location.search) {
+    if (window.location.search) {
         window.location.replace(window.location.origin);
         return;
     }

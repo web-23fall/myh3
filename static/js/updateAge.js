@@ -6,16 +6,16 @@ export function checkBeforeUpdateAge() {
     let form = document.getElementById('updateAge');
     let checkboxes = form.querySelectorAll('input[type="checkbox"]');
     let cnt = 0;
-    checkboxes.forEach(function(checkbox) {
-        if(checkbox.checked) {
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
             cnt++;
         }
     });
-    if(cnt === 0) {
+    if (cnt === 0) {
         frontEndWarn("请至少选中一项，否则无法修改");
         return;
     }
-    if(!checkAge(age)) {
+    if (!checkAge(age)) {
         frontEndWarnAge();
         return;
     }

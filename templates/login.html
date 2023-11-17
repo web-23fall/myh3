@@ -12,89 +12,89 @@
     <script src="/static/js/login.js" type="module"></script>
 </head>
 <body>
-    <!-- <div class="loginForm"></div> -->
-    <div class="loginForm">
-        <h2>用户登录</h2>
-        
-        <form class="form-horizontal" action="login" method="post">
-            <div class="form-group">
-                <label class="col control-label" for="username">用户名：</label>
-                <div class="col">
-                    <input class="form-control" name="username" type="text" id="username">
+<!-- <div class="loginForm"></div> -->
+<div class="loginForm">
+    <h2>用户登录</h2>
 
-                </div>
+    <form class="form-horizontal" action="login" method="post">
+        <div class="form-group">
+            <label class="col control-label" for="username">用户名：</label>
+            <div class="col">
+                <input class="form-control" name="username" type="text" id="username">
+
             </div>
-            <div class="form-group">
-                <label class="col control-label" for="pwd">密码：</label>
-                <div class="col">
-                    <input class="form-control" name="pwd" type="password" id="pwd">
-                </div>
+        </div>
+        <div class="form-group">
+            <label class="col control-label" for="pwd">密码：</label>
+            <div class="col">
+                <input class="form-control" name="pwd" type="password" id="pwd">
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-default btn-outline-primary" onclick="send()">登录</button>
-                    <button type="reset" class="btn btn-default btn-outline-primary">重置</button>
-                </div>
-                <a href="/register">点此注册账号</a>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-default btn-outline-primary" onclick="send()">登录</button>
+                <button type="reset" class="btn btn-default btn-outline-primary">重置</button>
             </div>
-            <div class="modal fade" id="code-modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">验证码弹窗</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <span>请计算验证码中算式的值。</span>
-                            <div id="code-content"></div>
-                            <button type="button" class="btn btn-link" onclick="again()">看不清？换一张</button>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="code" placeholder="请输入答案">
-                                <div class="input-group-append">
-                                    <button id="send-btn" type="submit" class="btn btn-outline-primary">
-                                        确认
-                                    </button>
-                                </div>
+            <a href="/register">点此注册账号</a>
+        </div>
+        <div class="modal fade" id="code-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">验证码弹窗</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span>请计算验证码中算式的值。</span>
+                        <div id="code-content"></div>
+                        <button type="button" class="btn btn-link" onclick="again()">看不清？换一张</button>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="code" placeholder="请输入答案">
+                            <div class="input-group-append">
+                                <button id="send-btn" type="submit" class="btn btn-outline-primary">
+                                    确认
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-    <div class="popup1">
-        <h2>
-            来自前端的警告
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
-    </div>
+        </div>
+    </form>
+</div>
+<div class="popup1">
+    <h2>
+        来自前端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
+</div>
 
-    <div class="popup2">
-        <h2>
-            来自后端的警告
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
-    </div>
+<div class="popup2">
+    <h2>
+        来自后端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
+</div>
 
-    <div class="popup3">
-        <h2>
-            成功
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
-    </div>
-    <div id="flash-messages" style="display: none;">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
+<div class="popup3">
+    <h2>
+        成功
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+</div>
+<div id="flash-messages" style="display: none;">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
 </body>
 </html>

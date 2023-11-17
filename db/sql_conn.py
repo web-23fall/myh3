@@ -46,10 +46,13 @@ class DataBase:
     def query2(self, table, ids, value):
         conn = self.open()
         cur = conn.cursor()
-        values = []
-        for i in range(len(ids)):
-            values.append("%s='%s'" % (ids[i], value[i]))
-        sql = "select * from %s where %s" % (table, " and ".join(values))
+        if type(ids) in [list]:
+            values = []
+            for i in range(len(ids)):
+                values.append("%s='%s'" % (ids[i], value[i]))
+            sql = "select * from '%s' where %s" % (table, " and ".join(values))
+        else:
+            sql = "select * from '%s' where %s='%s'" % (table, ids, value)
         print(sql)
         cur.execute(sql)
 
@@ -62,10 +65,10 @@ class DataBase:
         close(conn)
         return description, result
 
-    def username_exists(self, username):
+    def checkid(self, table, idname, id):
         conn = self.open()
         cur = conn.cursor()
-        sql = "select * from users where username = '%s'" % username
+        sql = "select * from '%s' where %s='%s'" % (table, idname, id)
         print(sql)
         cur.execute(sql)
         result = cur.fetchall()

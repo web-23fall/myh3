@@ -97,21 +97,18 @@ def generate_code():
         return jsonify(error_json)
 
 
-@app.route("/register", methods=["POST", "GET"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
     else:
         username = request.form.get("username", type=str).strip()
         pwd = request.form.get("pwd", type=str).strip()
-
-        if db.username_exists(username):
+        if db.checkid("users", "username", username):
             flash("用户名已被注册，请选择不同的用户名。", "error")
             return redirect(url_for("register"))
-        # print(db.username_exists(username))
         salt = bcrypt.gensalt()
         spwd = bcrypt.hashpw(pwd.encode("utf-8"), salt)
-        # print(username," ",spwd," ",salt)
         data = dict(
             username=username, pwd=spwd.decode("utf-8"), salt=salt.decode("utf-8")
         )
@@ -126,16 +123,13 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     else:
-        ids = ["username"]
-        username = request.form.get("username", type=str).strip()
-        value = [username]
-        _, userinfo = db.query2("users", ids, value)
-        print(userinfo)
-        pwd = request.form.get("pwd", type=str).strip()
         code_get = request.form.get("code").strip()
         vfc_sha1 = hashlib.sha1()
         vfc_sha1.update(code_get.encode("utf-8"))
         if code_sha1 == vfc_sha1.hexdigest():
+            username = request.form.get("username", type=str).strip()
+            _, userinfo = db.query2("users", "username", username)
+            pwd = request.form.get("pwd", type=str).strip()
             if userinfo:
                 if bcrypt.checkpw(pwd.encode("utf-8"), userinfo[0][1].encode("utf-8")):
                     session["username"] = username
@@ -187,9 +181,13 @@ def add():
     if request.method == "GET":
         _, results = db.selectAll("student_profession")
         return render_template("add.html", pros=results)
-
+    stu_id = request.form.get("stu_id", type=int)
+    if db.checkid("student_info", "stu_id", stu_id):
+        print(f"warning: {stu_id}")
+        flash("学号重复，请修改输入", "error")
+        return redirect(url_for("add"))
     data = dict(
-        stu_id=request.form.get("stu_id", type=int),
+        stu_id=stu_id,
         stu_name=request.form.get("stu_name", type=str).strip(),
         stu_sex=request.form.get("stu_sex", type=str).strip(),
         stu_age=request.form.get("stu_age", type=int),
@@ -206,10 +204,8 @@ def update():
         return redirect(url_for("login"))
 
     if request.method == "GET":
-        ids = ["stu_id"]
         stu_id = request.args.get("id", type=int)
-        values = [stu_id]
-        _, stu = db.query2("student_info", ids, values)
+        _, stu = db.query2("student_info", "stu_id", stu_id)
         _, pros = db.selectAll("student_profession")
         return render_template("update.html", stu=stu[0], pros=pros)
 
@@ -230,7 +226,10 @@ def update():
 def delete(ids):
     if not checkLogin():
         return redirect(url_for("login"))
-    db.deleteById("student_info", "stu_id", ids)
+    if db.checkid("student_info", "stu_id", ids):
+        db.deleteById("student_info", "stu_id", ids)
+        return redirect(url_for("index"))
+    flash("无效的学号，请检查", "error")
     return redirect(url_for("index"))
 
 

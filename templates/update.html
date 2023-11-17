@@ -14,85 +14,86 @@
 </head>
 
 <body>
-    <div id="container">
-        <h1>请输入要更新记录的相关信息</h1>
-        <form id="updateForm" name="updateForm" method="post" action="/update">
-            <label for="stu_id">学号：{{ stu[0] }}</label>
-            <input type="hidden" name="stu_id" id="stu_id" value="{{ stu[0] }}" />
-            <p>
-                <label for="stu_name">姓名：</label>
-                <input type="text" name="stu_name" id="stu_name" value="{{ stu[1] }}" />
-            </p>
-            <p>
-                <label for="stu_sex">性别：</label>
-                {% if stu[2] == "男" %}
-                <input type="radio" name="stu_sex" id="male" value="男" checked />
-                男
-                <input type="radio" name="stu_sex" id="female" value="女" />
-                女
-                {% else %}
-                <input type="radio" name="stu_sex" id="male" value="男" />
-                男
-                <input type="radio" name="stu_sex" id="female" value="女" checked />
-                女
-                {% endif %}
-                <br />
-            </p>
-            <p>
-                <label for="stu_age">年龄：</label>
-                <input type="text" name="stu_age" id="stu_age" value="{{ stu[3] }}" />
-            </p>
-            <p>
-                <label for="stu_origin">籍贯：</label>
-                <input type="text" name="stu_origin" id="stu_origin" value="{{ stu[4] }}" />
-            </p>
-            <p>
-                <label for="stu_profession">专业：</label>
-                <select id="stu_profession" name="stu_profession">
-                    {% for pro in pros %}
-                    <option value="{{ pro[1] }}" {{ "selected" if pro[1]==stu[5] }}>{{ pro[1] }}</option>
-                    {% endfor %}
-                </select>
-            </p>
-            <p>
-                <input type="button" class="btn btn-primary" name="button" value="提交" onclick="checkBeforeUpdate()" />
-                <input type="reset" class="btn btn-primary" name="reset" value="重置" />
-                <br />
-            </p>
-        </form>
-    </div>
-    <div class="popup1">
-        <h2>
-            来自前端的警告
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
-    </div>
-
-    <div class="popup2">
-        <h2>
-            来自后端的警告
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
-    </div>
-
-    <div class="popup3">
-        <h2>
-            成功
-        </h2>
-        <p></p>
-        <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
-    </div>
-    <div id="flash-messages" style="display: none;">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
+<div id="container">
+    <h1>请输入要更新记录的相关信息</h1>
+    <form id="updateForm" name="updateForm" method="post" action="/update">
+        <label for="stu_id">学号：{{ stu[0] }}</label>
+        <input type="hidden" name="stu_id" id="stu_id" value="{{ stu[0] }}"/>
+        <p>
+            <label for="stu_name">姓名：</label>
+            <input type="text" name="stu_name" id="stu_name" value="{{ stu[1] }}"/>
+        </p>
+        <p>
+            <label for="stu_sex">性别：</label>
+            {% if stu[2] == "男" %}
+            <input type="radio" name="stu_sex" id="male" value="男" checked/>
+            男
+            <input type="radio" name="stu_sex" id="female" value="女"/>
+            女
+            {% else %}
+            <input type="radio" name="stu_sex" id="male" value="男"/>
+            男
+            <input type="radio" name="stu_sex" id="female" value="女" checked/>
+            女
             {% endif %}
-        {% endwith %}
-    </div>
+            <br/>
+        </p>
+        <p>
+            <label for="stu_age">年龄：</label>
+            <input type="text" name="stu_age" id="stu_age" value="{{ stu[3] }}"/>
+        </p>
+        <p>
+            <label for="stu_origin">籍贯：</label>
+            <input type="text" name="stu_origin" id="stu_origin" value="{{ stu[4] }}"/>
+        </p>
+        <p>
+            <label for="stu_profession">专业：</label>
+            <select id="stu_profession" name="stu_profession">
+                {% for pro in pros %}
+                <option value="{{ pro[1] }}" {{
+                "selected" if pro[1]==stu[5] }}>{{ pro[1] }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <input type="button" class="btn btn-primary" name="button" value="提交" onclick="checkBeforeUpdate()"/>
+            <input type="reset" class="btn btn-primary" name="reset" value="重置"/>
+            <br/>
+        </p>
+    </form>
+</div>
+<div class="popup1">
+    <h2>
+        来自前端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close1()">确定</button>
+</div>
+
+<div class="popup2">
+    <h2>
+        来自后端的警告
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close2()">确定</button>
+</div>
+
+<div class="popup3">
+    <h2>
+        成功
+    </h2>
+    <p></p>
+    <button type="button" class="btn btn-primary" onclick="close3()">确定</button>
+</div>
+<div id="flash-messages" style="display: none;">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
 </body>
 
 </html>

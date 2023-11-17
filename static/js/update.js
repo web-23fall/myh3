@@ -1,13 +1,5 @@
 import {flashBackMessages} from "./pop-up.js";
-import {
-    checkAge,
-    checkHometown,
-    checkId,
-    checkName,
-    frontEndWarnAge,
-    frontEndWarnHometown,
-    frontEndWarnName
-} from "./check.js";
+import {checkAge, checkHometown, checkName, frontEndWarnAge, frontEndWarnHometown, frontEndWarnName} from "./check.js";
 
 export function checkBeforeUpdate() {
     const name = document.getElementById('stu_name').value;
@@ -16,19 +8,19 @@ export function checkBeforeUpdate() {
     const male = document.getElementById('male').checked;
     const female = document.getElementById('female').checked;
     const form = document.getElementById('updateForm');
-    if(!checkName(name)) {
+    if (!checkName(name)) {
         frontEndWarnName();
         return;
     }
-    if(male === false && female === false) {
+    if (male === false && female === false) {
         frontEndWarn('请选择性别');
         return;
     }
-    if(!checkAge(age)) {
+    if (!checkAge(age)) {
         frontEndWarnAge();
         return;
     }
-    if(!checkHometown(hometown)) {
+    if (!checkHometown(hometown)) {
         frontEndWarnHometown();
         return;
     }

@@ -1,8 +1,9 @@
-import { checkUsername, checkPassword, frontEndWarnUsername, frontEndWarnPassword } from './check.js';
-import { frontEndWarn, backEndWarn, flashBackMessages } from './pop-up.js';
+import {checkPassword, checkUsername, frontEndWarnPassword, frontEndWarnUsername} from './check.js';
+import {backEndWarn, flashBackMessages, frontEndWarn} from './pop-up.js';
 
 let lastImagePath = "";
 let code = "";
+
 function requestForCode() {
     $.ajax({
         url: '/code',
@@ -13,7 +14,7 @@ function requestForCode() {
         },
         dataType: 'json',
         async: false,
-        success: function(response) {
+        success: function (response) {
             if (response.code.toString() == "server_error") {
                 backEndWarn("服务器意外错误，请刷新页面重试");
             } else if (response.code.toString() != "error") {
@@ -22,7 +23,7 @@ function requestForCode() {
             }
             return;
         },
-        error: function(error) {
+        error: function (error) {
             backEndWarn(error);
         }
     });
@@ -32,11 +33,11 @@ function requestForCode() {
 export function send() {
     let username = document.getElementById('username').value;
     let password = document.getElementById('pwd').value;
-    if(username == "" || password == "") {
+    if (username == "" || password == "") {
         frontEndWarn("用户名或密码不能为空");
         return;
     }
-    if(username == password) {
+    if (username == password) {
         frontEndWarn("用户名和密码不能相同");
         return;
     }

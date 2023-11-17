@@ -37,20 +37,20 @@ export function deleteForm() {
     let checkboxes = form.querySelectorAll('input[type="checkbox"]');
     let cnt = 0;
     let ids = [];
-    checkboxes.forEach(function(checkbox) {
-        if(checkbox.checked) {
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
             cnt++;
             ids.push(checkbox.value);
         }
     });
-    if(cnt === 0) {
+    if (cnt === 0) {
         frontEndWarn("请至少选中一项，否则无法删除");
         return;
     }
     // 不需要刷新页面，用 ajax 重写 submit 逻辑
     submit(ids);
     let flashMessages = document.getElementById("flash-messages").children;
-    if(flashMessages.length === 0) {
+    if (flashMessages.length === 0) {
         success('批量删除成功，点击下方确认后刷新页面');
         return;
     }

@@ -18,28 +18,28 @@ export function checkAndSubmit() {
     const male = document.getElementById('male').checked;
     const female = document.getElementById('female').checked;
     const form = document.getElementById('insertForm');
-    if(!checkId(id)) {
+    if (!checkId(id)) {
         frontEndWarnId();
         return;
     }
-    if(!checkName(name)) {
+    if (!checkName(name)) {
         frontEndWarnName();
         return;
     }
-    if(male === false && female === false) {
+    if (male === false && female === false) {
         frontEndWarn('请选择性别');
         return;
     }
-    if(!checkAge(age)) {
+    if (!checkAge(age)) {
         frontEndWarnAge();
         return;
     }
-    if(!checkHometown(hometown)) {
+    if (!checkHometown(hometown)) {
         frontEndWarnHometown();
         return;
     }
     form.submit();
 }
 
-window.reload = flashBackMessages;
+window.onload = flashBackMessages;
 window.checkAndSubmit = checkAndSubmit;
