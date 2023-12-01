@@ -14,7 +14,8 @@
 </head>
 
 <body>
-<div id="container">
+<center>
+    <div id="container">
     <form id="queryForm">
         <label for="name">姓名：</label>
         <input type="text" name="name" id="name"/>
@@ -31,10 +32,10 @@
             <tr>
                 <td></td>
                 {% for d in desp %}
-                <td>{{ d }}</td>
+                <td><b>{{ d }}</b></td>
                 {% endfor %}
-                <td>修改</td>
-                <td>删除</td>
+                <td><b>修改</b></td>
+                <td><b>删除</b></td>
             </tr>
             {% for item in results %}
             <tr>
@@ -110,6 +111,8 @@
         {% endif %}
     {% endwith %}
 </div>
+
+</center>
 
 </body>
 
