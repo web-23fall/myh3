@@ -42,7 +42,7 @@ export function close2() {
         window.location.replace(window.location.origin);
         return;
     }
-    window.location.reload();
+    // window.location.reload();
 }
 
 export function close3() {

@@ -15,7 +15,8 @@
 </head>
 
 <body>
-<div id="container">
+<center>
+    <div id="container">
     <h1>请输入要插入记录的相关信息</h1>
     <form id="insertForm" method="post" action="/add">
         <label for="stu_id">学号：</label>
@@ -30,6 +31,8 @@
             男
             <input type="radio" name="stu_sex" id="female" value="女"/>
             女
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <br/>
         </p>
         <p>
@@ -87,6 +90,7 @@
         {% endif %}
     {% endwith %}
 </div>
+</center>
 
 
 </body>

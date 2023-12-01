@@ -14,7 +14,8 @@
 </head>
 
 <body>
-<div id="container">
+<center>
+    <div id="container">
     <h1>请输入要更新记录的相关信息</h1>
     <form id="updateForm" name="updateForm" method="post" action="/update">
         <label for="stu_id">学号：{{ stu[0] }}</label>
@@ -36,6 +37,8 @@
             <input type="radio" name="stu_sex" id="female" value="女" checked/>
             女
             {% endif %}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <br/>
         </p>
         <p>
@@ -94,6 +97,8 @@
         {% endif %}
     {% endwith %}
 </div>
+</center>
+
 </body>
 
 </html>

@@ -13,7 +13,8 @@
 </head>
 
 <body>
-<div id="container">
+<center>
+    <div id="container">
     <h1>请选择要更新年龄的学生：</h1>
     <form id="updateAge" action="/updateAge" method="post">
         <button type="button" onclick="checkBeforeUpdateAge()">批量修改年龄为：</button>
@@ -22,7 +23,7 @@
             <tr>
                 <td></td>
                 {% for d in desp %}
-                <td>{{ d }}</td>
+                <td><b>{{ d }}</b></td>
                 {% endfor %}
             </tr>
             {% for item in results %}
@@ -96,5 +97,6 @@
     {% endwith %}
 </div>
 </body>
+</center>
 
 </html>

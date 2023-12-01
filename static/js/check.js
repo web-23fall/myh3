@@ -1,5 +1,10 @@
 import {frontEndWarn} from './pop-up.js';
 
+const checkSQLkeyword = (str) => {
+    const regex = /\b(?:and|like|exec|insert|select|drop|grant|alter|delete|update|count|chr|mid|master|truncate|char|declare|or)\b/g;
+    return regex.test(str);
+}
+
 const checkStringWithUpperLowerChineseSpace = (str) => {
     // contains [A-Z], [a-z], chinese characters, space
     const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
@@ -28,6 +33,9 @@ const checkStringWithSpecificLength = (str, min, max) => {
 
 export const checkUsername = (username) => {
     // check username
+    if(checkSQLkeyword(username)) {
+        return false;
+    }
     // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&-_] at least three types, start with [A-Za-z0-9_]
     if (!checkStringWithSpecificLength(username, 6, 16)) {
         return false;
@@ -41,6 +49,9 @@ export const checkUsername = (username) => {
 
 export const checkPassword = (password) => {
     // check password by regex or other ways
+    if(checkSQLkeyword(username)) {
+        return false;
+    }
     // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&-_] at least three types
     return checkStringWithUpperLowerNumSpecialAtLeastThreeTypes(password) &&
         checkStringWithSpecificLength(password, 6, 16);
@@ -48,6 +59,9 @@ export const checkPassword = (password) => {
 
 export const checkName = (name) => {
     //check name
+    if(checkSQLkeyword(username)) {
+        return false;
+    }
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space
     return checkStringWithUpperLowerChineseSpace(name) &&
         checkStringWithSpecificLength(name, 1, 16);
@@ -69,21 +83,24 @@ export const checkAge = (age) => {
 
 export const checkHometown = (hometown) => {
     // check hometown
+    if(checkSQLkeyword(username)) {
+        return false;
+    }
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space
     return checkStringWithUpperLowerChineseSpace(hometown) &&
         checkStringWithSpecificLength(hometown, 1, 16);
 }
 
 export const frontEndWarnUsername = () => {
-    frontEndWarn("用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串");
+    frontEndWarn("用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字");
 }
 
 export const frontEndWarnPassword = () => {
-    frontEndWarn("密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串");
+    frontEndWarn("密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字");
 }
 
 export const frontEndWarnName = () => {
-    frontEndWarn("姓名不合法，应当为一个长度为 1-16 的，可包含空格，中文，英文，但不包含数字和特殊字符的字符串");
+    frontEndWarn("姓名不合法，应当为一个长度为 1-16 的，可包含空格，中文，英文，但不包含数字和特殊字符的字符串，且不包含任何 SQL 关键字");
 }
 
 export const frontEndWarnId = () => {
@@ -95,5 +112,5 @@ export const frontEndWarnAge = () => {
 }
 
 export const frontEndWarnHometown = () => {
-    frontEndWarn("籍贯不合法，应当为一个长度为 1-16 的，包含中英文的字符串");
+    frontEndWarn("籍贯不合法，应当为一个长度为 1-16 的，包含中英文的字符串，且不包含任何 SQL 关键字");
 }
