@@ -4,3 +4,4 @@ Pillow==10.1.0
 bcrypt==4.0.1
 selenium==4.15.2
 pytest==7.4.3
+chromedriver-autoinstaller==0.6.3
