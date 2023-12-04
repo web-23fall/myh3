@@ -68,10 +68,10 @@ jobs:
               python -m pip install --upgrade pip
               pip install -r requirements.txt
 
-          - name: Check if code can be compiled
+          - name: Run the code
             run: |
               chmod a+x app.py
-              python app.py
+              nohup python app.py > flask.log 2>&1 &
 
     test-by-selenium:
         runs-on: ubuntu-latest
