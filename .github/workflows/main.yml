@@ -95,6 +95,8 @@ jobs:
               pip install -r requirements.txt
             
           - name: Run Selenium tests
+            env:
+              BROWSER: chrome
             run: |
               chmod a+x static/test/test_selenium.py
               pytest -v -s static/test/test_selenium.py
