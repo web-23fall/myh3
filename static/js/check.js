@@ -17,6 +17,7 @@ const checkStringWithUpperLowerChineseSpace = (str) => {
     return (typeUpper + typeLower + typeChinese + typeSpace) >= 1;
 }
 
+// TODO debug
 const checkStringWithUpperLowerNumSpecialAtLeastThreeTypes = (str) => {
     // contains [A-Z], [a-z], [0-9], [!@#$%^&*-_] at least three types
     const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
@@ -31,7 +32,17 @@ const checkStringWithSpecificLength = (str, min, max) => {
     return str.length >= min && str.length <= max;
 }
 
+const checkWhiteChar = (str) => {
+    // check white char
+    const regex = /\s/g;
+    return regex.test(str);
+
+}
+
 export const checkUsername = (username) => {
+    if(checkWhiteChar(username)) {
+        return false;
+    }
     // check username
     if(checkSQLkeyword(username)) {
         return false;
@@ -49,7 +60,10 @@ export const checkUsername = (username) => {
 
 export const checkPassword = (password) => {
     // check password by regex or other ways
-    if(checkSQLkeyword(username)) {
+    if(checkWhiteChar(password)) {
+        return false;
+    }
+    if(checkSQLkeyword(password)) {
         return false;
     }
     // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&-_] at least three types
@@ -59,7 +73,7 @@ export const checkPassword = (password) => {
 
 export const checkName = (name) => {
     //check name
-    if(checkSQLkeyword(username)) {
+    if(checkSQLkeyword(name)) {
         return false;
     }
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space
@@ -83,7 +97,7 @@ export const checkAge = (age) => {
 
 export const checkHometown = (hometown) => {
     // check hometown
-    if(checkSQLkeyword(username)) {
+    if(checkSQLkeyword(hometown)) {
         return false;
     }
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space
