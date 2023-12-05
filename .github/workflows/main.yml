@@ -100,4 +100,4 @@ jobs:
               BROWSER: chrome
             run: |
               Start-Process -FilePath "python.exe" -ArgumentList "app.py"
-              pytest -v -s /static/test/test_selenium.py
+              pytest -v -s "./static/test/test_selenium.py"
