@@ -14,7 +14,7 @@ chromedriver_autoinstaller.install()  # Check if the current version of chromedr
 
 def test_register_username_fail_none():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -36,7 +36,7 @@ def test_register_username_fail_none():
 
 def test_register_username_fail_short():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -62,7 +62,7 @@ def test_register_username_fail_short():
 
 def test_register_username_fail_only1():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -88,7 +88,7 @@ def test_register_username_fail_only1():
 
 def test_register_username_fail_only2():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -114,7 +114,7 @@ def test_register_username_fail_only2():
 
 def test_register_username_fail_with_space():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -140,7 +140,7 @@ def test_register_username_fail_with_space():
 
 def test_register_username_fail_long():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -166,7 +166,7 @@ def test_register_username_fail_long():
 
 def test_register_username_fail_SQL():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -192,7 +192,7 @@ def test_register_username_fail_SQL():
 
 def test_register_username_fail_nonstart():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -218,7 +218,7 @@ def test_register_username_fail_nonstart():
 
 def test_register_password_fail_none():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -240,7 +240,7 @@ def test_register_password_fail_none():
 
 def test_register_password_fail_short():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -263,7 +263,7 @@ def test_register_password_fail_short():
 
 def test_register_password_fail_long():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -286,7 +286,7 @@ def test_register_password_fail_long():
 
 def test_register_password_fail_only1():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -309,7 +309,7 @@ def test_register_password_fail_only1():
 
 def test_register_password_fail_only2():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -332,7 +332,7 @@ def test_register_password_fail_only2():
 
 def test_register_password_fail_SQL():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -355,7 +355,7 @@ def test_register_password_fail_SQL():
 
 def test_register_password_fail_same_username():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -378,7 +378,7 @@ def test_register_password_fail_same_username():
 
 def test_register_passwordagain_fail_none():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
@@ -400,7 +400,7 @@ def test_register_passwordagain_fail_none():
 
 def test_register_passwordagain_fail_none():
     driver = webdriver.Chrome()
-    driver.get("http://localhost:5000/register")
+    driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")

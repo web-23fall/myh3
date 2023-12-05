@@ -7,10 +7,24 @@ const checkSQLkeyword = (str) => {
 
 const checkStringWithUpperLowerChineseSpace = (str) => {
     // contains [A-Z], [a-z], chinese characters, space
-    const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
-    const typeLower = ((str.match(/[a-z]/g) || []).length) > 0;
-    const typeChinese = ((str.match(/[\u4e00-\u9fa5]/g) || []).length) > 0;
-    const typeSpace = ((str.match(/ /g) || []).length) > 0;
+    let typeUpper = 0;
+    let typeLower = 0;
+    let typeChinese = 0;
+    let typeSpace = 0;
+    for(let char of str) {
+        if(char >= 'A' && char <= 'Z') {
+            typeUpper = 1;
+        }
+        if(char >= 'a' && char <= 'z') {
+            typeLower = 1;
+        }
+        if(char >= '\u4e00' && char <= '\u9fa5') {
+            typeChinese = 1;
+        }
+        if(char === ' ') {
+            typeSpace = 1;
+        }
+    }
     if (typeSpace) {
         return (typeUpper + typeLower + typeChinese) >= 1;
     }
@@ -20,10 +34,24 @@ const checkStringWithUpperLowerChineseSpace = (str) => {
 // TODO debug
 const checkStringWithUpperLowerNumSpecialAtLeastThreeTypes = (str) => {
     // contains [A-Z], [a-z], [0-9], [!@#$%^&*-_] at least three types
-    const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
-    const typeLower = ((str.match(/[a-z]/g) || []).length) > 0;
-    const typeNum = ((str.match(/[0-9]/g) || []).length) > 0;
-    const typeSpecial = ((str.match(/[!@#$%^&-_]/g) || []).length) > 0;
+    let typeUpper = 0;
+    let typeLower = 0;
+    let typeNum = 0;
+    let typeSpecial = 0;
+    for(let char of str) {
+        if(char >= 'A' && char <= 'Z') {
+            typeUpper = 1;
+        }
+        if(char >= 'a' && char <= 'z') {
+            typeLower = 1;
+        }
+        if(char >= '0' && char <= '9') {
+            typeNum = 1;
+        }
+        if(char === '!' || char === '@' || char === '#' || char === '$' || char === '%' || char === '^' || char === '&' || char === '*' || char === '-' || char === '_') {
+            typeSpecial = 1;
+        }
+    }
     return (typeUpper + typeLower + typeNum + typeSpecial) >= 3;
 }
 
