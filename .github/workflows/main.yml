@@ -94,13 +94,10 @@ jobs:
               python -m pip install --upgrade pip
               pip install -r requirements.txt
               pip install pyvirtualdisplay
-              # sudo apt-get install xvfb
             
           - name: Run Selenium tests
             env:
               BROWSER: chrome
             run: |
-              # chmod a+x static/test/test_selenium.py
-              # pytest -v -s static/test/test_selenium.py
               Start-Process -FilePath "python.exe" -ArgumentList "app.py"
-              pytest /static/test/test_selenium.py
+              pytest -v -s /static/test/test_selenium.py
