@@ -28,7 +28,7 @@ def test_register_username_fail_none():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -49,15 +49,15 @@ def test_register_username_fail_none():
 
     assert text == "用户名或密码不能为空"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_short():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -82,15 +82,15 @@ def test_register_username_fail_short():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_long():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -115,15 +115,15 @@ def test_register_username_fail_long():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_only1():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -148,15 +148,15 @@ def test_register_username_fail_only1():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_only2():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -181,15 +181,15 @@ def test_register_username_fail_only2():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_with_space():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -214,15 +214,15 @@ def test_register_username_fail_with_space():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_sql():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -247,15 +247,15 @@ def test_register_username_fail_sql():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_username_fail_nonstart():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -280,15 +280,15 @@ def test_register_username_fail_nonstart():
         == "用户名不合法，应当为一个长度为 6-16 的，以大小写字母或数字或下划线开头的，包含大小写字母、数字和特殊字符的其中三种的字符串，且不包含任何 SQL 关键字"
     )
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_none():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -309,15 +309,15 @@ def test_register_password_fail_none():
 
     assert text == "用户名或密码不能为空"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_short():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -339,15 +339,15 @@ def test_register_password_fail_short():
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_long():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -369,15 +369,15 @@ def test_register_password_fail_long():
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_only1():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -399,15 +399,15 @@ def test_register_password_fail_only1():
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_only2():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -429,15 +429,15 @@ def test_register_password_fail_only2():
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_sql():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -459,15 +459,15 @@ def test_register_password_fail_sql():
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_password_fail_same_username():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -489,15 +489,15 @@ def test_register_password_fail_same_username():
 
     assert text == "用户名和密码不能相同"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_passwordagain_fail_none():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -518,15 +518,15 @@ def test_register_passwordagain_fail_none():
 
     assert text == "请确认密码"
 
-    time.sleep(3)
     driver.quit()
 
 
+@pytest.mark.register
 def test_register_passwordagain_fail_not_equal():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
-    time.sleep(3)
+
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -548,5 +548,30 @@ def test_register_passwordagain_fail_not_equal():
 
     assert text == "两次输入的密码不一致"
 
-    time.sleep(3)
+    driver.quit()
+
+
+@pytest.mark.register
+def test_register_success():
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get("http://127.0.0.1:5000/register")
+    driver.implicitly_wait(2)
+
+    username = driver.find_element(by=By.NAME, value="username")
+    pwd = driver.find_element(by=By.NAME, value="pwd")
+    pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
+    button = driver.find_element(by=By.ID, value="reg")
+
+    username.send_keys("123ABCqwq_")
+    pwd.send_keys("asd123A!")
+    pwdagain.send_keys("asd123A!")
+    button.click()
+
+    WebDriverWait(driver, 10).until(EC.title_is("login"))
+
+    driver.save_screenshot("png/register_success.png")
+
+    result = EC.title_is("login")
+    assert result
+
     driver.quit()
