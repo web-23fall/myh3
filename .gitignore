@@ -4,3 +4,5 @@ __pycache__/
 /static/images/
 /Writerside/
 flask.log
+.pytest_cache/
+png/
