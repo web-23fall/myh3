@@ -12,6 +12,7 @@ def test_register_username_fail_none():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -23,6 +24,7 @@ def test_register_username_fail_none():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "用户名或密码不能为空"
@@ -35,6 +37,7 @@ def test_register_username_fail_short():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -47,6 +50,7 @@ def test_register_username_fail_short():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -62,6 +66,7 @@ def test_register_username_fail_long():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -74,6 +79,7 @@ def test_register_username_fail_long():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -89,6 +95,7 @@ def test_register_username_fail_only1():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -101,6 +108,7 @@ def test_register_username_fail_only1():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -116,6 +124,7 @@ def test_register_username_fail_only2():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -128,6 +137,7 @@ def test_register_username_fail_only2():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -143,6 +153,7 @@ def test_register_username_fail_with_space():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -155,6 +166,7 @@ def test_register_username_fail_with_space():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -170,6 +182,7 @@ def test_register_username_fail_sql():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -182,6 +195,7 @@ def test_register_username_fail_sql():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -197,6 +211,7 @@ def test_register_username_fail_nonstart():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -209,6 +224,7 @@ def test_register_username_fail_nonstart():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert (
@@ -224,6 +240,7 @@ def test_register_password_fail_none():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -235,6 +252,7 @@ def test_register_password_fail_none():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "用户名或密码不能为空"
@@ -247,6 +265,7 @@ def test_register_password_fail_short():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -259,6 +278,7 @@ def test_register_password_fail_short():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
@@ -271,6 +291,7 @@ def test_register_password_fail_long():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -283,6 +304,7 @@ def test_register_password_fail_long():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
@@ -295,6 +317,7 @@ def test_register_password_fail_only1():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -307,6 +330,7 @@ def test_register_password_fail_only1():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
@@ -319,6 +343,7 @@ def test_register_password_fail_only2():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -331,6 +356,7 @@ def test_register_password_fail_only2():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
@@ -343,6 +369,7 @@ def test_register_password_fail_sql():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -355,6 +382,7 @@ def test_register_password_fail_sql():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "密码不合法，应当为一个长度为 6-16 的，同时具有大写、小写、数字、特殊字符其中三种的字符串，且不包含任何 SQL 关键字"
@@ -367,6 +395,7 @@ def test_register_password_fail_same_username():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -379,6 +408,7 @@ def test_register_password_fail_same_username():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "用户名和密码不能相同"
@@ -391,6 +421,7 @@ def test_register_passwordagain_fail_none():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -402,6 +433,7 @@ def test_register_passwordagain_fail_none():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "请确认密码"
@@ -414,6 +446,7 @@ def test_register_passwordagain_fail_none():
     driver = webdriver.Chrome()
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(0.5)
+    time.sleep(3)
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
@@ -426,6 +459,7 @@ def test_register_passwordagain_fail_none():
     driver.implicitly_wait(0.5)
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    driver.implicitly_wait(0.5)
     text = message.text
 
     assert text == "两次输入的密码不一致"

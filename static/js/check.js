@@ -31,7 +31,6 @@ const checkStringWithUpperLowerChineseSpace = (str) => {
     return (typeUpper + typeLower + typeChinese + typeSpace) >= 1;
 }
 
-// TODO debug
 const checkStringWithUpperLowerNumSpecialAtLeastThreeTypes = (str) => {
     // contains [A-Z], [a-z], [0-9], [!@#$%^&*-_] at least three types
     let typeUpper = 0;
