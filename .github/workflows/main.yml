@@ -102,6 +102,5 @@ jobs:
             run: |
               # chmod a+x static/test/test_selenium.py
               # pytest -v -s static/test/test_selenium.py
-              start /b python app.py
-              timeout /t 30 /nobreak
+              Start-Process -FilePath "python.exe" -ArgumentList "app.py"
               pytest /static/test/test_selenium.py
