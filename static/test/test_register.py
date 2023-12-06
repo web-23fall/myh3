@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-import time
 import chromedriver_autoinstaller
 import pytest
 
@@ -29,7 +28,6 @@ def test_register_username_fail_none():
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
 
-    username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
     button = driver.find_element(by=By.ID, value="reg")
@@ -284,13 +282,42 @@ def test_register_username_fail_nonstart():
 
 
 @pytest.mark.register
-def test_register_password_fail_none():
+def test_register_username_fail_same():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
 
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
+    pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
+    button = driver.find_element(by=By.ID, value="reg")
+
+    username.send_keys("12345qwq!")
+    pwd.send_keys("asd123A!")
+    pwdagain.send_keys("asd123A!")
+    button.click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup2 > p"))
+    )
+
+    driver.get_screenshot_as_file("png/register_username_fail_same.png")
+
+    message = driver.find_element(by=By.CSS_SELECTOR, value=".popup2 > p")
+    text = message.text
+
+    assert text == "用户名已被注册，请选择不同的用户名。"
+
+    driver.quit()
+
+
+@pytest.mark.register
+def test_register_password_fail_none():
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get("http://127.0.0.1:5000/register")
+    driver.implicitly_wait(2)
+
+    username = driver.find_element(by=By.NAME, value="username")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
     button = driver.find_element(by=By.ID, value="reg")
 
@@ -500,7 +527,6 @@ def test_register_passwordagain_fail_none():
 
     username = driver.find_element(by=By.NAME, value="username")
     pwd = driver.find_element(by=By.NAME, value="pwd")
-    pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
     button = driver.find_element(by=By.ID, value="reg")
 
     username.send_keys("123abcqwq!")
@@ -562,7 +588,7 @@ def test_register_success():
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
     button = driver.find_element(by=By.ID, value="reg")
 
-    username.send_keys("123ABCqwq_")
+    username.send_keys("123ABCqwq!_")
     pwd.send_keys("asd123A!")
     pwdagain.send_keys("asd123A!")
     button.click()

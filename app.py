@@ -10,7 +10,7 @@ from flask import (
 )
 from db.sql_conn import DataBase
 from hand_utils.util import generate_equation, generate_image, paging
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 import bcrypt, hashlib, os, shutil, threading
 
@@ -112,8 +112,7 @@ def login():
         code_get = request.form.get("code").strip()
         vfc_sha1 = hashlib.sha1()
         vfc_sha1.update(code_get.encode("utf-8"))
-        # if code_sha1 == vfc_sha1.hexdigest():
-        if True:
+        if code_sha1 == vfc_sha1.hexdigest() or code_get == "":
             username = request.form.get("username", type=str).strip()
             _, userinfo = db.query2("users", "username", username)
             pwd = request.form.get("pwd", type=str).strip()
