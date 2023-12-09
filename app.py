@@ -168,6 +168,7 @@ def add():
         _, results = db.selectAll("student_profession")
         return render_template("add.html", pros=results)
     stu_id = request.form.get("stu_id", type=int)
+    print(stu_id)
     if db.checkid("student_info", "stu_id", stu_id):
         print(f"warning: {stu_id}")
         flash("学号重复，请修改输入", "error")

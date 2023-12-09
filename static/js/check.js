@@ -7,6 +7,7 @@ const checkSQLkeyword = (str) => {
 
 const checkStringWithUpperLowerChineseSpace = (str) => {
     // contains [A-Z], [a-z], chinese characters, space
+    // not contains [0-9], [!@#$%^&*-_,]
     let typeUpper = 0;
     let typeLower = 0;
     let typeChinese = 0;
@@ -23,6 +24,12 @@ const checkStringWithUpperLowerChineseSpace = (str) => {
         }
         if(char === ' ') {
             typeSpace = 1;
+        }
+        if(char === ',' || char === '!' || char === '@' || char === '#' || char === '$' || char === '%' || char === '^' || char === '&' || char === '*' || char === '-' || char === '_') {
+            return false;
+        }
+        if(char >= '0' && char <= '9') {
+            return false;
         }
     }
     if (typeSpace) {
@@ -98,6 +105,7 @@ export const checkPassword = (password) => {
         checkStringWithSpecificLength(password, 6, 16);
 }
 
+// TODO: debug
 export const checkName = (name) => {
     //check name
     if(checkSQLkeyword(name)) {
@@ -110,8 +118,8 @@ export const checkName = (name) => {
 
 export const checkId = (id) => {
     // check id by regex
-    // len <= 16, contains [0-9]
-    let regex = /^[0-9]{1,16}$/;
+    // len <= 16, contains [0-9], positive integer
+    let regex = /^[1-9][0-9]{0,15}$/;
     return regex.test(id);
 }
 

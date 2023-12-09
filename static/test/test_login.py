@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 
 import chromedriver_autoinstaller
 import pytest
+import inspect
 
 chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
 # and if it doesn't exist, download it automatically,
@@ -20,6 +21,13 @@ chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 chrome_options.add_experimental_option("useAutomationExtension", False)
 chrome_options.add_experimental_option("detach", True)
+
+
+def get_func_name() -> str:
+    function_name = inspect.currentframe().f_back.f_code.co_name
+    if function_name.startswith("test_"):
+        function_name = function_name[len("test_") :]
+    return function_name
 
 
 @pytest.mark.login
@@ -38,7 +46,7 @@ def test_login_username_fail_none():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.save_screenshot("png/login_username_fail_none.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -66,7 +74,7 @@ def test_login_username_fail_short():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_short.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -97,7 +105,7 @@ def test_login_username_fail_long():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_long.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -128,7 +136,7 @@ def test_login_username_fail_only1():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_only1.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -159,7 +167,7 @@ def test_login_username_fail_only2():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_only2.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -190,7 +198,7 @@ def test_login_username_fail_with_space():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_with_space.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -221,7 +229,7 @@ def test_login_username_fail_sql():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_sql.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -252,7 +260,7 @@ def test_login_username_fail_nonstart():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_nonstart.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -281,7 +289,7 @@ def test_login_password_fail_none():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_none.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -309,7 +317,7 @@ def test_login_password_fail_short():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_short.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -337,7 +345,7 @@ def test_login_password_fail_long():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_long.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -365,7 +373,7 @@ def test_login_password_fail_only1():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_only1.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -393,7 +401,7 @@ def test_login_password_fail_only2():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_only2.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -421,7 +429,7 @@ def test_login_password_fail_sql():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_sql.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -449,7 +457,7 @@ def test_login_password_fail_same_username():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_same_username.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
@@ -483,7 +491,7 @@ def test_login_username_fail_notfound():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup2 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_username_fail_notfound.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup2 > p")
     text = message.text
@@ -517,7 +525,7 @@ def test_login_password_fail_wrong():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup2 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_password_fail_wrong.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup2 > p")
     text = message.text
@@ -553,7 +561,7 @@ def test_login_captcha_fail_wrong():
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup2 > p"))
     )
 
-    driver.get_screenshot_as_file("png/login_captcha_fail_wrong.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup2 > p")
     text = message.text
@@ -585,7 +593,7 @@ def test_login_success():
 
     WebDriverWait(driver, 10).until(EC.title_is("show"))
 
-    driver.save_screenshot("png/login_success.png")
+    driver.save_screenshot(f"png/{get_func_name()}.png")
 
     result = EC.title_is("show")
     assert result
