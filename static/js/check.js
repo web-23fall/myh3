@@ -105,7 +105,6 @@ export const checkPassword = (password) => {
         checkStringWithSpecificLength(password, 6, 16);
 }
 
-// TODO: debug
 export const checkName = (name) => {
     //check name
     if(checkSQLkeyword(name)) {

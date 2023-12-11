@@ -18,7 +18,7 @@ import bcrypt, hashlib, os, shutil, threading
 app = Flask(__name__)
 app.secret_key = "qwq"
 
-db = DataBase("./db/user.db")
+db = DataBase("./db/user2.db")
 code_sha1 = ""
 
 socketio = SocketIO(app)
@@ -263,6 +263,11 @@ def updateAge():
     for stuId in idlist:
         db.updateAgeById("student_info", "stu_id", stuId, stu_age)
     return redirect(url_for("index"))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 
 createTimer()
