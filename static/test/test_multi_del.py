@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 import chromedriver_autoinstaller
 import pytest
 import inspect
+import random
 
 chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
 # and if it doesn't exist, download it automatically,
@@ -82,7 +83,7 @@ def query_fail(driver, stu_id_str, name_str, func: str):
 
 
 @pytest.mark.multi_del
-def test_multi_del_fail_0_no_button():
+def test_multi_del_fail_0nn():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -105,7 +106,7 @@ def test_multi_del_fail_0_no_button():
 
 
 @pytest.mark.multi_del
-def test_multi_del_fail_1_no_button():
+def test_multi_del_fail_1nn():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -129,7 +130,7 @@ def test_multi_del_fail_1_no_button():
 
 
 @pytest.mark.multi_del
-def test_multi_del_fail_page_no_button():
+def test_multi_del_fail_20nn():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -152,7 +153,7 @@ def test_multi_del_fail_page_no_button():
 
 
 @pytest.mark.multi_del
-def test_multi_del_fail_page_turn_page_button():
+def test_multi_del_fail_20yy():
     # 页面重新加载后所有元素需要重新 find
     driver = login()
     driver.get("http://127.0.0.1:5000")
@@ -189,7 +190,7 @@ def test_multi_del_fail_page_turn_page_button():
 
 
 @pytest.mark.multi_del
-def test_multi_del_fail_1_turn_page_no_button():
+def test_multi_del_fail_1yn():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -218,7 +219,7 @@ def test_multi_del_fail_1_turn_page_no_button():
 
 
 @pytest.mark.multi_del
-def test_multi_del_fail_0_button():
+def test_multi_del_fail_0ny():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -243,7 +244,7 @@ def test_multi_del_fail_0_button():
 
 
 @pytest.mark.multi_del
-def test_multi_del_success_1():
+def test_multi_del_success_1ny():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -273,7 +274,7 @@ def test_multi_del_success_1():
 
 
 @pytest.mark.multi_del
-def test_multi_del_success_page():
+def test_multi_del_success_20ny():
     driver = login()
     driver.get("http://127.0.0.1:5000")
 
@@ -297,6 +298,178 @@ def test_multi_del_success_page():
                 by=By.XPATH, value=f'//*[@id="deleteForm"]/table/tbody/tr[{i}]/td[3]'
             ).text
         )
+
+    deleteButton = driver.find_element(by=By.ID, value="multi_del")
+    deleteButton.click()
+
+    driver.save_screenshot(f"png/{get_func_name()}.png")
+
+    for i in range(len(stu_id)):
+        query_fail(driver, stu_id[i], name[i], get_func_name())
+
+    driver.quit()
+
+
+@pytest.mark.multi_del
+def test_multi_del_fail_0yn():
+    driver = login()
+    driver.get("http://127.0.0.1:5000")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            checkbox.click()
+
+    nextPage = driver.find_element(by=By.ID, value="nextpage")
+    nextPage.click()
+
+    driver.save_screenshot(f"png/{get_func_name()}.png")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    selected = 0
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            selected += 1
+
+    assert selected == 0
+
+
+@pytest.mark.multi_del
+def test_multi_del_fail_0yy():
+    # 页面重新加载后所有元素需要重新 find
+    driver = login()
+    driver.get("http://127.0.0.1:5000")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            checkbox.click()
+
+    nextPage = driver.find_element(by=By.ID, value="nextpage")
+    nextPage.click()
+
+    deleteButton = driver.find_element(by=By.ID, value="multi_del")
+    deleteButton.click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
+    )
+    driver.save_screenshot(f"png/{get_func_name()}.png")
+    message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    text = message.text
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    selected = 0
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            selected += 1
+
+    assert text == "请至少选中一项，否则无法删除" and selected == 0
+
+
+@pytest.mark.multi_del
+def test_multi_del_fail_1yy():
+    # 页面重新加载后所有元素需要重新 find
+    driver = login()
+    driver.get("http://127.0.0.1:5000")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            checkbox.click()
+    checkbox_elements[0].click()
+
+    nextPage = driver.find_element(by=By.ID, value="nextpage")
+    nextPage.click()
+
+    deleteButton = driver.find_element(by=By.ID, value="multi_del")
+    deleteButton.click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
+    )
+    driver.save_screenshot(f"png/{get_func_name()}.png")
+    message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    text = message.text
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    selected = 0
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            selected += 1
+
+    assert text == "请至少选中一项，否则无法删除" and selected == 0
+
+
+@pytest.mark.multi_del
+def test_multi_del_fail_20yn():
+    driver = login()
+    driver.get("http://127.0.0.1:5000")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    for checkbox in checkbox_elements:
+        if not checkbox.is_selected():
+            checkbox.click()
+
+    nextPage = driver.find_element(by=By.ID, value="nextpage")
+    nextPage.click()
+
+    driver.save_screenshot(f"png/{get_func_name()}.png")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+    selected = 0
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            selected += 1
+
+    assert selected == 0
+
+
+@pytest.mark.multi_del
+def test_multi_del_success_random_ny():
+    driver = login()
+    driver.get("http://127.0.0.1:5000")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type=checkbox]"
+    )
+
+    stu_id = []
+    name = []
+    i = 2
+
+    for checkbox in checkbox_elements:
+        if not checkbox.is_selected() and random.randint(0, 1) == 1:
+            checkbox.click()
+            stu_id.append(
+                driver.find_element(
+                    by=By.XPATH,
+                    value=f'//*[@id="deleteForm"]/table/tbody/tr[{i}]/td[2]',
+                ).text
+            )
+            name.append(
+                driver.find_element(
+                    by=By.XPATH,
+                    value=f'//*[@id="deleteForm"]/table/tbody/tr[{i}]/td[3]',
+                ).text
+            )
+        i += 1
 
     deleteButton = driver.find_element(by=By.ID, value="multi_del")
     deleteButton.click()
