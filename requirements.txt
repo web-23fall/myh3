@@ -7,3 +7,4 @@ pytest==7.4.3
 chromedriver-autoinstaller==0.6.3
 pytest-cov==4.1.0
 pytest-xdist==3.5.0
+Requests==2.31.0
