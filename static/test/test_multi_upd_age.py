@@ -90,7 +90,7 @@ def query_suc(driver, stu_id_str, name_str, age: str, func: str):
     )
     assert (
         driver.find_element(
-            by=By.XPATH, value="//form[@id='deleteForm']/table/tbody/tr[5]/td[3]"
+            by=By.XPATH, value="//form[@id='deleteForm']/table/tbody/tr[2]/td[5]"
         ).text
         == age
     )
@@ -124,7 +124,7 @@ def query_fail(driver, stu_id_str, name_str, func: str):
 
 
 def get_ids(length: int, num: int) -> list:
-    ids = [i for i in range(length)]
+    ids = [(i + 2) for i in range(length)]
     random.shuffle(ids)
     return ids[:num]
 
@@ -140,7 +140,7 @@ def xyny(num: int, func: str):
     )
 
     ids = get_ids(len(checkbox_elements), num)
-    i = 0
+    i = 2
 
     for checkbox in checkbox_elements:
         if checkbox.is_selected():
@@ -188,7 +188,7 @@ def xynn(num: int, func: str):
     )
 
     ids = get_ids(len(checkbox_elements), num)
-    i = 0
+    i = 2
 
     for checkbox in checkbox_elements:
         if checkbox.is_selected():
@@ -227,7 +227,7 @@ def xyyy(num: int, func: str):
     )
 
     ids = get_ids(len(checkbox_elements), num)
-    i = 0
+    i = 2
 
     for checkbox in checkbox_elements:
         if checkbox.is_selected():
@@ -276,7 +276,7 @@ def xyyn(num: int, func: str):
     )
 
     ids = get_ids(len(checkbox_elements), num)
-    i = 0
+    i = 2
 
     for checkbox in checkbox_elements:
         if checkbox.is_selected():
@@ -314,7 +314,7 @@ def xnny(num: int, func: str):
     )
 
     ids = get_ids(len(checkbox_elements), num)
-    i = 0
+    i = 2
 
     for checkbox in checkbox_elements:
         if checkbox.is_selected():
@@ -363,7 +363,7 @@ def xnnn(num: int, func: str):
     )
 
     ids = get_ids(len(checkbox_elements), num)
-    i = 0
+    i = 2
 
     for checkbox in checkbox_elements:
         if checkbox.is_selected():
@@ -401,23 +401,22 @@ def xnyy(num: int, func: str):
     ids = get_ids(len(checkbox_elements), num)
     name = []
     stu_id = []
-    i = 0
+    i = 2
 
     driver.save_screenshot(f"png/{func}_1.png")
 
     for checkbox in checkbox_elements:
         if i in ids:
-            # TODO: ?
             stu_id.append(
                 driver.find_element(
-                    by=By.CSS_SELECTOR,
-                    value=f'tr:nth-child({i}) > td:nth-child(2)',
+                    by=By.XPATH,
+                    value=f"//tr[{i}]/td[2]",
                 ).text
             )
             name.append(
                 driver.find_element(
-                    by=By.CSS_SELECTOR,
-                    value=f'tr:nth-child({i}) > td:nth-child(3)',
+                    by=By.XPATH,
+                    value=f"//tr[{i}]/td[3]",
                 ).text
             )
             checkbox.click()
@@ -450,6 +449,106 @@ def xnyy(num: int, func: str):
         driver.save_screenshot(f"png/{func}.png")
         for i in range(len(stu_id)):
             query_suc(driver, stu_id[i], name[i], "24", func)
+
+    driver.quit()
+
+
+def xnyn(num: int, func: str):
+    driver = login()
+    driver.get("http://127.0.0.1:5000/updateAge")
+
+    age = driver.find_element(by=By.ID, value="age")
+    age.send_keys("24")
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type='checkbox']"
+    )
+
+    ids = get_ids(len(checkbox_elements), num)
+    i = 2
+
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            checkbox.click()
+        if i in ids:
+            checkbox.click()
+        i += 1
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type='checkbox']"
+    )
+
+    selected = 0
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            selected += 1
+
+    driver.save_screenshot(f"png/{func}.png")
+
+    assert selected == num
+    driver.quit()
+
+
+def xnxy(num: int, age_str: str, func: str):
+    driver = login()
+    driver.get("http://127.0.0.1:5000/updateAge")
+
+    age = driver.find_element(by=By.ID, value="age")
+    age.send_keys(age_str)
+
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type='checkbox']"
+    )
+
+    ids = get_ids(len(checkbox_elements), num)
+    name = []
+    stu_id = []
+    i = 2
+
+    driver.save_screenshot(f"png/{func}_1.png")
+
+    for checkbox in checkbox_elements:
+        if i in ids:
+            stu_id.append(
+                driver.find_element(
+                    by=By.XPATH,
+                    value=f"//tr[{i}]/td[2]",
+                ).text
+            )
+            name.append(
+                driver.find_element(
+                    by=By.XPATH,
+                    value=f"//tr[{i}]/td[3]",
+                ).text
+            )
+            checkbox.click()
+        i += 1
+
+    submit = driver.find_element(by=By.CSS_SELECTOR, value="#updateAge > button")
+    submit.click()
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
+    )
+    checkbox_elements = driver.find_elements(
+        by=By.CSS_SELECTOR, value="input[type='checkbox']"
+    )
+
+    selected = 0
+    for checkbox in checkbox_elements:
+        if checkbox.is_selected():
+            selected += 1
+
+    driver.save_screenshot(f"png/{func}.png")
+
+    message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
+    text = message.text
+
+    assert selected == num
+    if num == 0:
+        assert text == "请至少选中一项，否则无法修改"
+    else:
+        assert text.startswith("年龄不合法")
 
     driver.quit()
 
@@ -550,10 +649,75 @@ def test_multi_upd_age_fail_0nyy():
 
 
 @pytest.mark.multi_upd_age
-def test_multi_upd_age_fail_1nyy():
+def test_multi_upd_age_success_1nyy():
     xnyy(1, get_func_name())
 
 
 @pytest.mark.multi_upd_age
-def test_multi_upd_age_fail_20nyy():
+def test_multi_upd_age_success_rand_nyy():
+    xnyy(random.randint(1, 20), get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_success_20nyy():
     xnyy(20, get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_0nyn():
+    xnyn(0, get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_1nyn():
+    xnyn(1, get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_20nyn():
+    xnyn(20, get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_0n0y():
+    xnxy(0, "0", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_1n0y():
+    xnxy(1, "0", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_20n0y():
+    xnxy(20, "0", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_0n_neg_y():
+    xnxy(0, "-114514", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_1n_neg_y():
+    xnxy(1, "-114514", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_20n_neg_y():
+    xnxy(20, "-114514", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_0n_abc_y():
+    xnxy(0, "abc", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_1n_abc_y():
+    xnxy(1, "abc", get_func_name())
+
+
+@pytest.mark.multi_upd_age
+def test_multi_upd_age_fail_20n_abc_y():
+    xnxy(20, "abc", get_func_name())

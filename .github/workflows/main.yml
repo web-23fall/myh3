@@ -97,7 +97,7 @@ jobs:
             BROWSER: chrome
           run: |
             Start-Process -FilePath "python.exe" -ArgumentList "app.py"
-            pytest -v -s "./static/test" -m login
+            pytest -v -s "./static/test" -m login -n auto
 
     test-query-by-selenium:
       runs-on: windows-latest
@@ -121,7 +121,7 @@ jobs:
             BROWSER: chrome
           run: |
             Start-Process -FilePath "python.exe" -ArgumentList "app.py"
-            pytest -v -s "./static/test" -m query
+            pytest -v -s "./static/test" -m query -n auto
 
     test-add-by-selenium:
       runs-on: windows-latest
