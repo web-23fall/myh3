@@ -485,6 +485,8 @@ def test_login_username_fail_notfound():
     WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.ID, "send-btn"))
     )
+    captcha = driver.find_element(by=By.NAME, value="code")
+    captcha.send_keys("AUTO")
     captcha_button.click()
 
     WebDriverWait(driver, 10).until(
@@ -519,6 +521,8 @@ def test_login_password_fail_wrong():
     WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.ID, "send-btn"))
     )
+    captcha = driver.find_element(by=By.NAME, value="code")
+    captcha.send_keys("AUTO")
     captcha_button.click()
 
     WebDriverWait(driver, 10).until(
@@ -589,6 +593,8 @@ def test_login_success():
     WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.ID, "send-btn"))
     )
+    captcha = driver.find_element(by=By.NAME, value="code")
+    captcha.send_keys("AUTO")
     captcha_button.click()
 
     WebDriverWait(driver, 10).until(EC.title_is("show"))

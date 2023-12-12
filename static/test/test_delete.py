@@ -41,6 +41,8 @@ def login() -> webdriver.Chrome:
     WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.ID, "send-btn"))
     )
+    captcha = driver.find_element(by=By.NAME, value="code")
+    captcha.send_keys("AUTO")
     captcha_button.click()
 
     WebDriverWait(driver, 10).until(EC.title_is("show"))
