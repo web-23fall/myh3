@@ -275,6 +275,4 @@ createTimer()
 if __name__ == "__main__":
     # When deploying the project on a cloud server, you need to change the value of "host" in the parameters.
     # Linux server can check the intranet IP address through the "ifconfig" command.
-    socketio.run(
-        app, host="0.0.0.0", port=5000, debug=True, allow_unsafe_werkzeug=True
-    )
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True, allow_unsafe_werkzeug=True)
