@@ -407,6 +407,7 @@ def xnyy(num: int, func: str):
 
     for checkbox in checkbox_elements:
         if i in ids:
+            # TODO: ?
             stu_id.append(
                 driver.find_element(
                     by=By.CSS_SELECTOR,
