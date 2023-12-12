@@ -3,3 +3,6 @@ __pycache__/
 .vscode/
 /static/images/
 /Writerside/
+flask.log
+.pytest_cache/
+png/

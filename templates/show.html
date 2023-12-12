@@ -21,13 +21,13 @@
         <input type="text" name="name" id="name"/>
         <label for="id">学号：</label>
         <input type="text" name="id" id="id"/>
-        <input type="button" value="查询" class="btn btn-primary btn-sm" onclick="checkBeforeQuery()"/>
+        <input type="button" value="查询" class="btn btn-primary btn-sm" id="query" onclick="checkBeforeQuery()"/>
     </form>
     <a href="/add">新增数据</a>
     <a href="/updateAge">批量修改年龄</a>
     <br>
     <form id="deleteForm">
-        <button type="button" onclick="deleteForm()">批量删除</button>
+        <button type="button" onclick="deleteForm()" id="multi_del">批量删除</button>
         <table>
             <tr>
                 <td></td>
@@ -70,7 +70,7 @@
         {% endfor %}
 
         {% if page < pagination %}
-        <button onclick="window.location.href='{{ url_for('index', page=page+1) }}'">
+        <button onclick="window.location.href='{{ url_for('index', page=page+1) }}'" id="nextpage">
             下一页
         </button>
         {% endif %}

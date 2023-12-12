@@ -7,10 +7,31 @@ const checkSQLkeyword = (str) => {
 
 const checkStringWithUpperLowerChineseSpace = (str) => {
     // contains [A-Z], [a-z], chinese characters, space
-    const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
-    const typeLower = ((str.match(/[a-z]/g) || []).length) > 0;
-    const typeChinese = ((str.match(/[\u4e00-\u9fa5]/g) || []).length) > 0;
-    const typeSpace = ((str.match(/ /g) || []).length) > 0;
+    // not contains [0-9], [!@#$%^&*-_,]
+    let typeUpper = 0;
+    let typeLower = 0;
+    let typeChinese = 0;
+    let typeSpace = 0;
+    for(let char of str) {
+        if(char >= 'A' && char <= 'Z') {
+            typeUpper = 1;
+        }
+        if(char >= 'a' && char <= 'z') {
+            typeLower = 1;
+        }
+        if(char >= '\u4e00' && char <= '\u9fa5') {
+            typeChinese = 1;
+        }
+        if(char === ' ') {
+            typeSpace = 1;
+        }
+        if(char === ',' || char === '!' || char === '@' || char === '#' || char === '$' || char === '%' || char === '^' || char === '&' || char === '*' || char === '-' || char === '_') {
+            return false;
+        }
+        if(char >= '0' && char <= '9') {
+            return false;
+        }
+    }
     if (typeSpace) {
         return (typeUpper + typeLower + typeChinese) >= 1;
     }
@@ -19,10 +40,24 @@ const checkStringWithUpperLowerChineseSpace = (str) => {
 
 const checkStringWithUpperLowerNumSpecialAtLeastThreeTypes = (str) => {
     // contains [A-Z], [a-z], [0-9], [!@#$%^&*-_] at least three types
-    const typeUpper = ((str.match(/[A-Z]/g) || []).length) > 0;
-    const typeLower = ((str.match(/[a-z]/g) || []).length) > 0;
-    const typeNum = ((str.match(/[0-9]/g) || []).length) > 0;
-    const typeSpecial = ((str.match(/[!@#$%^&-_]/g) || []).length) > 0;
+    let typeUpper = 0;
+    let typeLower = 0;
+    let typeNum = 0;
+    let typeSpecial = 0;
+    for(let char of str) {
+        if(char >= 'A' && char <= 'Z') {
+            typeUpper = 1;
+        }
+        if(char >= 'a' && char <= 'z') {
+            typeLower = 1;
+        }
+        if(char >= '0' && char <= '9') {
+            typeNum = 1;
+        }
+        if(char === '!' || char === '@' || char === '#' || char === '$' || char === '%' || char === '^' || char === '&' || char === '*' || char === '-' || char === '_') {
+            typeSpecial = 1;
+        }
+    }
     return (typeUpper + typeLower + typeNum + typeSpecial) >= 3;
 }
 
@@ -31,7 +66,17 @@ const checkStringWithSpecificLength = (str, min, max) => {
     return str.length >= min && str.length <= max;
 }
 
+const checkWhiteChar = (str) => {
+    // check white char
+    const regex = /\s/g;
+    return regex.test(str);
+
+}
+
 export const checkUsername = (username) => {
+    if(checkWhiteChar(username)) {
+        return false;
+    }
     // check username
     if(checkSQLkeyword(username)) {
         return false;
@@ -49,7 +94,10 @@ export const checkUsername = (username) => {
 
 export const checkPassword = (password) => {
     // check password by regex or other ways
-    if(checkSQLkeyword(username)) {
+    if(checkWhiteChar(password)) {
+        return false;
+    }
+    if(checkSQLkeyword(password)) {
         return false;
     }
     // len >= 6 && <= 16, contains [A-Z], [a-z], [0-9], [!@#$%^&-_] at least three types
@@ -59,7 +107,7 @@ export const checkPassword = (password) => {
 
 export const checkName = (name) => {
     //check name
-    if(checkSQLkeyword(username)) {
+    if(checkSQLkeyword(name)) {
         return false;
     }
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space
@@ -69,8 +117,8 @@ export const checkName = (name) => {
 
 export const checkId = (id) => {
     // check id by regex
-    // len <= 16, contains [0-9]
-    let regex = /^[0-9]{1,16}$/;
+    // len <= 16, contains [0-9], positive integer
+    let regex = /^[1-9][0-9]{0,15}$/;
     return regex.test(id);
 }
 
@@ -83,7 +131,7 @@ export const checkAge = (age) => {
 
 export const checkHometown = (hometown) => {
     // check hometown
-    if(checkSQLkeyword(username)) {
+    if(checkSQLkeyword(hometown)) {
         return false;
     }
     // len >= 1 && <= 16, contains [A-Za-z], chinese characters, space

@@ -58,7 +58,7 @@
 
         {% if page < pagination %}
         <button
-                onclick="window.location.href='{{ url_for('updateAge', page=page+1) }}'">下一页
+                onclick="window.location.href='{{ url_for('updateAge', page=page+1) }}'" id="nextpage">下一页
         </button>
         {% endif %}
         <button onclick="window.location.href='{{ url_for('updateAge', page=pagination) }}'">尾页</button>

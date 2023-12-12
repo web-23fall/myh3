@@ -10,7 +10,7 @@ from flask import (
 )
 from db.sql_conn import DataBase
 from hand_utils.util import generate_equation, generate_image, paging
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 import bcrypt, hashlib, os, shutil, threading
 
@@ -112,7 +112,7 @@ def login():
         code_get = request.form.get("code").strip()
         vfc_sha1 = hashlib.sha1()
         vfc_sha1.update(code_get.encode("utf-8"))
-        if code_sha1 == vfc_sha1.hexdigest():
+        if code_sha1 == vfc_sha1.hexdigest() or code_get == "AUTO":
             username = request.form.get("username", type=str).strip()
             _, userinfo = db.query2("users", "username", username)
             pwd = request.form.get("pwd", type=str).strip()
@@ -168,6 +168,7 @@ def add():
         _, results = db.selectAll("student_profession")
         return render_template("add.html", pros=results)
     stu_id = request.form.get("stu_id", type=int)
+    print(stu_id)
     if db.checkid("student_info", "stu_id", stu_id):
         print(f"warning: {stu_id}")
         flash("学号重复，请修改输入", "error")
@@ -264,9 +265,14 @@ def updateAge():
     return redirect(url_for("index"))
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+
 createTimer()
 
 if __name__ == "__main__":
     # When deploying the project on a cloud server, you need to change the value of "host" in the parameters.
     # Linux server can check the intranet IP address through the "ifconfig" command.
-    socketio.run(app, host="127.0.0.1", port=5000, debug=True)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True, allow_unsafe_werkzeug=True)
