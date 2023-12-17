@@ -32,27 +32,33 @@ def get_func_name() -> str:
 
 @pytest.mark.register
 def test_register_username_fail_none():
+    # 新建一个 Chrome 浏览器的实例，用来进行测试
     driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://127.0.0.1:5000/register")
     driver.implicitly_wait(2)
 
+    # 寻找页面中对应的对象
     pwd = driver.find_element(by=By.NAME, value="pwd")
     pwdagain = driver.find_element(by=By.NAME, value="pwdagain")
     button = driver.find_element(by=By.ID, value="reg")
 
+    # 模拟用户的输入
     pwd.send_keys("123abcABC")
     pwdagain.send_keys("123abcABC")
     button.click()
 
+    # 等待页面加载完成，出现指定的元素，此处是前端警告提示框
     WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".popup1 > p"))
     )
 
+    # 截图保存，get_func_name() 函数用来获取当前测试函数的名称
     driver.save_screenshot(f"png/{get_func_name()}.png")
 
     message = driver.find_element(by=By.CSS_SELECTOR, value=".popup1 > p")
     text = message.text
 
+    # 判断警告信息是否与预期一致
     assert text == "用户名或密码不能为空"
 
     driver.quit()
