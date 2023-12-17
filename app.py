@@ -18,7 +18,7 @@ import bcrypt, hashlib, os, shutil, threading
 app = Flask(__name__)
 app.secret_key = "qwq"
 
-db = DataBase("./db/user.db")
+db = DataBase("./db/user2.db")
 code_sha1 = ""
 
 socketio = SocketIO(app)
@@ -112,11 +112,14 @@ def login():
         code_get = request.form.get("code").strip()
         vfc_sha1 = hashlib.sha1()
         vfc_sha1.update(code_get.encode("utf-8"))
+        # 验证码正确
         if code_sha1 == vfc_sha1.hexdigest() or code_get == "AUTO":
             username = request.form.get("username", type=str).strip()
             _, userinfo = db.query2("users", "username", username)
             pwd = request.form.get("pwd", type=str).strip()
+            # 用户存在
             if userinfo:
+                # 密码正确
                 if bcrypt.checkpw(pwd.encode("utf-8"), userinfo[0][1].encode("utf-8")):
                     session["username"] = username
                     return redirect(url_for("index"))

@@ -1,4 +1,5 @@
 import sqlite3
+from flask import flash
 
 
 def close(conn):
@@ -16,32 +17,37 @@ class DataBase:
     def query(self, sql):
         conn = self.open()
         cur = conn.cursor()
-        cur.execute(sql)
-
-        description = []
-        for d in cur.description:
-            description.append(d[0])
-        result = cur.fetchall()
-
-        cur.close()
-        close(conn)
-        return description, result
+        try:
+            cur.execute(sql)
+        except BaseException as e:
+            flash(e.args[0], "error")
+            return [], []
+        else:
+            description = []
+            for d in cur.description:
+                description.append(d[0])
+            result = cur.fetchall()
+            cur.close()
+            close(conn)
+            return description, result
 
     def selectAll(self, table):
         conn = self.open()
         cur = conn.cursor()
         sql = "select * from %s" % table
-        print(sql)
-        cur.execute(sql)
-
-        description = []
-        for d in cur.description:
-            description.append(d[0])
-        result = cur.fetchall()
-
-        cur.close()
-        close(conn)
-        return description, result
+        try:
+            cur.execute(sql)
+        except BaseException as e:
+            flash(e.args[0], "error")
+            return [], []
+        else:
+            description = []
+            for d in cur.description:
+                description.append(d[0])
+            result = cur.fetchall()
+            cur.close()
+            close(conn)
+            return description, result
 
     def query2(self, table, ids, value):
         conn = self.open()
@@ -54,27 +60,35 @@ class DataBase:
         else:
             sql = "select * from '%s' where %s='%s'" % (table, ids, value)
         print(sql)
-        cur.execute(sql)
-
-        description = []
-        for d in cur.description:
-            description.append(d[0])
-        result = cur.fetchall()
-
-        cur.close()
-        close(conn)
-        return description, result
+        try:
+            cur.execute(sql)
+        except BaseException as e:
+            flash(e.args[0], "error")
+            return [], []
+        else:
+            description = []
+            for d in cur.description:
+                description.append(d[0])
+            result = cur.fetchall()
+            cur.close()
+            close(conn)
+            return description, result
 
     def checkid(self, table, idname, id):
         conn = self.open()
         cur = conn.cursor()
         sql = "select * from '%s' where %s='%s'" % (table, idname, id)
         print(sql)
-        cur.execute(sql)
-        result = cur.fetchall()
-        print(result)
-        close(conn)
-        return result
+        try:
+            cur.execute(sql)
+        except BaseException as e:
+            flash(e.args[0], "error")
+            return []
+        else:
+            result = cur.fetchall()
+            cur.close()
+            close(conn)
+            return result
 
     def update(self, table, data):
         conn = self.open()
@@ -90,9 +104,14 @@ class DataBase:
                 values.append("%s='%s'" % (v, data[v]))
         sql = "update %s set %s where %s" % (table, ",".join(values), " and ".join(ids))
         print(sql)
-        cur.execute(sql)
-        conn.commit()
-        close(conn)
+        try:
+            cur.execute(sql)
+            conn.commit()
+        except BaseException as e:
+            flash(e.args[0], "error")
+        else:
+            cur.close()
+            close(conn)
 
     def insert(self, table, data):
         conn = self.open()
@@ -107,12 +126,16 @@ class DataBase:
             ",".join(["?"] * len(fieldnames)),
         )
         print(sql)
-        cur.execute(sql, values)
-        conn.commit()
-        close(conn)
+        try:
+            cur.execute(sql, values)
+            conn.commit()
+        except BaseException as e:
+            flash(e.args[0], "error")
+        else:
+            cur.close()
+            close(conn)
 
     def deleteById(self, table, ids, value):
-        # print(type(id))
         conn = self.open()
         values = []
         cur = conn.cursor()
@@ -121,14 +144,25 @@ class DataBase:
                 values.append("%s='%s'" % (ids[i], value[i]))
             sql = "delete from %s where %s" % (table, " and ".join(values))
             print(sql)
-            cur.execute(sql)
-            conn.commit()
+            try:
+                cur.execute(sql)
+                conn.commit()
+            except BaseException as e:
+                flash(e.args[0], "error")
+            else:
+                cur.close()
+                close(conn)
         else:
             sql = "delete from %s where %s=?" % (table, ids)
             print(sql)
-            cur.execute(sql, (value,))
-            conn.commit()
-        close(conn)
+            try:
+                cur.execute(sql, (value,))
+                conn.commit()
+            except BaseException as e:
+                flash(e.args[0], "error")
+            else:
+                cur.close()
+                close(conn)
 
     def updateAgeById(self, table, ids, value, age):
         conn = self.open()
@@ -144,12 +178,23 @@ class DataBase:
                 " and ".join(values),
             )
             print(sql)
-            cur.execute(sql)
-            conn.commit()
+            try:
+                cur.execute(sql)
+                conn.commit()
+            except BaseException as e:
+                flash(e.args[0], "error")
+            else:
+                cur.close()
+                close(conn)
         else:
             # sql = "delete from %s where %s=?" % (table, id)
             sql = "update %s set stu_age=%d where %s=?" % (table, age, ids)
             print(sql)
-            cur.execute(sql, (value,))
-            conn.commit()
-        close(conn)
+            try:
+                cur.execute(sql, (value,))
+                conn.commit()
+            except BaseException as e:
+                flash(e.args[0], "error")
+            else:
+                cur.close()
+                close(conn)

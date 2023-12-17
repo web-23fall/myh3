@@ -32,6 +32,7 @@ const checkStringWithUpperLowerChineseSpace = (str) => {
             return false;
         }
     }
+    // 避免只有空格的情况
     if (typeSpace) {
         return (typeUpper + typeLower + typeChinese) >= 1;
     }
@@ -74,10 +75,11 @@ const checkWhiteChar = (str) => {
 }
 
 export const checkUsername = (username) => {
+    // check white char, eg: space, tab, newline
     if(checkWhiteChar(username)) {
         return false;
     }
-    // check username
+    // check SQL keyword
     if(checkSQLkeyword(username)) {
         return false;
     }
@@ -93,10 +95,11 @@ export const checkUsername = (username) => {
 }
 
 export const checkPassword = (password) => {
-    // check password by regex or other ways
+    // check white char, eg: space, tab, newline
     if(checkWhiteChar(password)) {
         return false;
     }
+    // check SQL keyword
     if(checkSQLkeyword(password)) {
         return false;
     }
@@ -106,7 +109,7 @@ export const checkPassword = (password) => {
 }
 
 export const checkName = (name) => {
-    //check name
+    //check SQL keyword
     if(checkSQLkeyword(name)) {
         return false;
     }
@@ -130,7 +133,7 @@ export const checkAge = (age) => {
 }
 
 export const checkHometown = (hometown) => {
-    // check hometown
+    // check SQL keyword
     if(checkSQLkeyword(hometown)) {
         return false;
     }
