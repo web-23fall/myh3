@@ -18,7 +18,7 @@ import bcrypt, hashlib, os, shutil, threading
 app = Flask(__name__)
 app.secret_key = "qwq"
 
-db = DataBase("./db/user2.db")
+db = DataBase("./db/user.db")
 code_sha1 = ""
 
 socketio = SocketIO(app)
